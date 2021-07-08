@@ -1,0 +1,16 @@
+.container {
+  top: 0;
+  display: flex;
+  background-color: rgb(211, 211, 211);
+  height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+}
