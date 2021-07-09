@@ -18,24 +18,6 @@ const Home = () => {
     }
   }, [authState, oktaAuth]);
 
-  const apiTest = () => {
-    fetch(
-      "http://localhost:8080/api/test"
-      // , {
-      //   headers: {
-      //     Authorization: `Bearer ${authState.accessToken}`,
-      //   },
-      // }
-    )
-      // .then((response) => {
-      //   return response.json();
-      // })
-      .then((data) => {
-        console.log(data);
-        // return data;
-      });
-  };
-
   // tokens can be renewed by hitting the /authorize endpoint. See Get a new access token/ID token silently for your SPA+ https://developer.okta.com/docs/guides/refresh-tokens/get-refresh-token/#get-a-new-access-token-id-token-silently-for-your-spa
 
   // const accessToken = authState.accessToken; // access token for APIs
@@ -57,8 +39,6 @@ const Home = () => {
     <div className={styles.container}>
       <div>
         <h1>PKCE Flow w/ Okta Hosted Login Page</h1>
-
-        <button onClick={apiTest}>API Test</button>
 
         {authState.isAuthenticated && !userInfo && (
           <div>Loading user information...</div>

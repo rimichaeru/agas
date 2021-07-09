@@ -23,6 +23,7 @@ const Nav = () => {
       <p>{path > 1 ? path : "Home"}</p>
       <div className={styles.options}>
         <button onClick={() => history.push("/")}>Home</button>
+        <button onClick={() => history.push("/test")}>Test</button>
         <RiSettings5Fill size="40" />
       </div>
     </div>

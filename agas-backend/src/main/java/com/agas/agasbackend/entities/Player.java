@@ -16,11 +16,9 @@ public class Player {
     private String nameFull;
     // JSON field for custom, eg. points/score/stats/total
 
-    // ID link to Authenticated owner?
+    // ID link to Authenticated owner, User
 
-    // ID link to specified Game
-    // OneToOne?
-
+    // OneToMany (Games)
 
 
     public Player() {
