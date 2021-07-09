@@ -6,39 +6,131 @@ const Home = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null); // userInfo has the logged-in user information
 
-  const accessToken = authState.accessToken; // access token for APIs
+  useEffect(() => {
+    if (!authState || !authState.isAuthenticated) {
+      // When user isn't authenticated, forget any user info
+      setUserInfo(null);
+    } else {
+      oktaAuth.getUser().then((info) => {
+        setUserInfo(info);
+        console.log(info);
+      });
+    }
+  }, [authState, oktaAuth]);
+
+  const apiTest = () => {
+    fetch(
+      "http://localhost:8080/api/test"
+      // , {
+      //   headers: {
+      //     Authorization: `Bearer ${authState.accessToken}`,
+      //   },
+      // }
+    )
+      // .then((response) => {
+      //   return response.json();
+      // })
+      .then((data) => {
+        console.log(data);
+        // return data;
+      });
+  };
+
   // tokens can be renewed by hitting the /authorize endpoint. See Get a new access token/ID token silently for your SPA+ https://developer.okta.com/docs/guides/refresh-tokens/get-refresh-token/#get-a-new-access-token-id-token-silently-for-your-spa
 
+  // const accessToken = authState.accessToken; // access token for APIs
   // const response = await fetch(url, {
   //   headers: {
   //     Authorization: `Bearer ${accessToken}`,
   //   },
   // });
 
-  const login = () => oktaAuth.signInWithRedirect({ originalUri: "/profile" });
-
-  useEffect(() => {
-    if (!authState.isAuthenticated) {
-      // When user isn't authenticated, forget any user info
-      setUserInfo(null);
-    } else {
-      oktaAuth.getUserInfo().then((info) => {
-        setUserInfo(info);
-        console.log(accessToken);
-        console.log(userInfo);
-      });
-    }
-  }, [authState, oktaAuth]); // Update if authState changes
+  const login = async () => {
+    oktaAuth.signInWithRedirect({ originalUri: "/" });
+  };
 
   if (!authState) {
-    return <div>Loading authentication...</div>;
-  } else if (!authState.isAuthenticated) {
-    return (
-      <div>
-        <a onClick={login}>Login</a>
-      </div>
-    );
+    return <div>Loading...</div>;
   }
+
+  return (
+    <div className={styles.container}>
+      <div>
+        <h1>PKCE Flow w/ Okta Hosted Login Page</h1>
+
+        <button onClick={apiTest}>API Test</button>
+
+        {authState.isAuthenticated && !userInfo && (
+          <div>Loading user information...</div>
+        )}
+
+        {authState.isAuthenticated && userInfo && (
+          <div>
+            <p>
+              Welcome, &nbsp;
+              {userInfo.name}!
+            </p>
+            <p>
+              You have successfully authenticated against your Okta org, and
+              have been redirected back to this application. You now have an ID
+              token and access token in local storage. Visit the{" "}
+              <a href="/profile">My Profile</a> page to take a look inside the
+              ID token.
+            </p>
+            <h3>Next Steps</h3>
+            <p>
+              Currently this application is a stand-alone front end application.
+              At this point you can use the access token to authenticate
+              yourself against resource servers that you control.
+            </p>
+            <p>
+              This sample is designed to work with one of our resource server
+              examples. To see access token authentication in action, please
+              download one of these resource server examples:
+            </p>
+            <ul>
+              <li>Resource Examples</li>
+            </ul>
+            <p>
+              Once you have downloaded and started the example resource server,
+              you can visit the <a href="/messages"> My Messages</a> page to see
+              the authentication process in action.
+            </p>
+          </div>
+        )}
+
+        {!authState.isAuthenticated && (
+          <div>
+            <p>
+              If you&lsquo;re viewing this page then you have successfully
+              started this React application.
+            </p>
+            <p>
+              <span>This example shows you how to use the </span>
+              <a href="https://github.com/okta/okta-react/tree/master">
+                Okta React Library
+              </a>
+              <span> to add the </span>
+              <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">
+                PKCE Flow
+              </a>
+              <span> to your application.</span>
+            </p>
+            <p>
+              When you click the login button below, you will be redirected to
+              the login page on your Okta org. After you authenticate, you will
+              be returned to this application with an ID token and access token.
+              These tokens will be stored in local storage and can be retrieved
+              at a later time.
+            </p>
+            <button id="login-button" primary onClick={login}>
+              Login
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Home;

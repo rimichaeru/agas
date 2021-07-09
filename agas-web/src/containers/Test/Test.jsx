@@ -3,20 +3,8 @@ import styles from "./Test.module.scss";
 
 const Test = () => {
   
-
   const apiTest = () => {
-    fetch("http://localhost:8080/test")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        return data;
-      });
-  };
-
-  const apiLogin = () => {
-    fetch("http://localhost:8080/login")
+    fetch("http://localhost:8080/api/test")
       .then((response) => {
         return response.json();
       })
@@ -27,11 +15,10 @@ const Test = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <h2>Backend Testing</h2>
       <button onClick={apiTest}>API Test</button>
-      <button onClick={apiLogin}>API Login</button>
-    </>
+    </div>
   );
 };
 
