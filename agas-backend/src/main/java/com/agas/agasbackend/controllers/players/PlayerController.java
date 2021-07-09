@@ -24,31 +24,10 @@ public class PlayerController {
     public IPlayerRepo playerRepo;
 
 
-    // test profile connection
-    @GetMapping("/api/userProfile")
-    @PreAuthorize("hasAuthority('SCOPE_profile')")
-    public <A extends AbstractOAuth2TokenAuthenticationToken<AbstractOAuth2Token>> Map<String, Object> getUserDetails(A authentication) {
-        return authentication.getTokenAttributes();
-    }
-
-    //For JWT only
-    @GetMapping("/api/userProfileJWT")
-    @PreAuthorize("hasAuthority('SCOPE_profile')")
-    public Map<String, Object> getUserDetails(JwtAuthenticationToken authentication) {
-        return authentication.getTokenAttributes();
-    }
 
 
-    // test api connection
-    @GetMapping("/api/test")
-    @PreAuthorize("hasAuthority('SCOPE_email')")
-    public Map<String, Object> messages() {
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("messages", "BeepBoop");
 
-        return result;
-    }
 
 
 }

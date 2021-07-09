@@ -24,6 +24,7 @@ const Nav = () => {
       <div className={styles.options}>
         <button onClick={() => history.push("/")}>Home</button>
         <button onClick={() => history.push("/test")}>Test</button>
+        <button onClick={() => history.push("/utils")}>Utils</button>
         <RiSettings5Fill size="40" />
       </div>
     </div>
