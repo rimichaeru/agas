@@ -5,8 +5,8 @@ import Routes from "./containers/Routes/Routes";
 import "./App.scss";
 import { Security } from "@okta/okta-react";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
-import { useState } from "react";
-import config from "./oktaConfig"
+import { useEffect, useState } from "react";
+import config from "./oktaConfig";
 
 // reference react-web https://github.com/okta/samples-js-react/tree/master/okta-hosted-login
 // refence backend from react-web https://github.com/okta/samples-java-spring/tree/master/resource-server
@@ -16,9 +16,11 @@ const oktaAuth = new OktaAuth(config.oidc);
 // const CALLBACK_PATH = '/login/callback';
 
 function App() {
+  // history is async
   let history = useHistory();
+
   const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    history.replace(toRelativeUrl(originalUri || "/", window.location.origin));
+    await history.replace(toRelativeUrl(originalUri || "/", window.location.origin));
   };
 
   return (

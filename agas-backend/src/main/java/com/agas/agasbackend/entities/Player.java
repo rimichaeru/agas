@@ -1,13 +1,13 @@
 package com.agas.agasbackend.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="players")
 public class Player {
+
+    // Personal details player class
 
     @Id
     @GeneratedValue
@@ -16,13 +16,14 @@ public class Player {
     private String nameFull;
     // JSON field for custom, eg. points/score/stats/total
 
-    // ID link to Authenticated owner, User
+    // Email-ID link to Authenticated owner, User
 
     // OneToMany (Games)
-
 
     public Player() {
 
     }
+
+
 
 }

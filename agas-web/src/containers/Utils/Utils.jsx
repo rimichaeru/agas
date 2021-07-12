@@ -8,9 +8,9 @@ const Utils = () => {
   const [diceValue, setDiceValue] = useState(6);
   const [diceAmount, setDiceAmount] = useState(1);
 
-  useEffect(() => {
-    setUtilRender(<Dice value={diceValue} amount={diceAmount} />);
-  }, [diceValue, diceRender]);
+  // useEffect(() => {
+  //   setUtilRender(<Dice value={diceValue} amount={diceAmount} />);
+  // }, [diceValue, diceRender]);
 
   return (
     <div className={styles.container}>
