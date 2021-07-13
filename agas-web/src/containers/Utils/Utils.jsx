@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Utils.module.scss";
-import Dice from "../../components/Dice";
+import DiceUtil from "../../components/DiceUtil";
 
 const Utils = () => {
   const [utilView, setUtilView] = useState("dice");

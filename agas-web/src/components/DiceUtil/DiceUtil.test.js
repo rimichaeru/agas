@@ -1,9 +1,9 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import Dice from "./Dice";
+import DiceUtil from "./DiceUtil";
 
-describe("Dice tests", () => {
+describe("DiceUtil tests", () => {
   it("should render", () => {
-    expect(render(<Dice />)).toBeTruthy();
+    expect(render(<DiceUtil />)).toBeTruthy();
   });
 });
