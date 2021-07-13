@@ -6,25 +6,15 @@ import { useHistory } from "react-router-dom";
 const Nav = () => {
   const history = useHistory();
 
-  const [path, setPath] = useState(
-    history.location.pathname.charAt(1).toUpperCase() +
-      history.location.pathname.slice(2)
-  );
-
-  useEffect(() => {
-    setPath(
-      history.location.pathname.charAt(1).toUpperCase() +
-        history.location.pathname.slice(2)
-    );
-  }, []);
-
   return (
     <div className={styles.container}>
-      <p>{path > 1 ? path : "Home"}</p>
+      <p>{history.location.pathname}</p>
       <div className={styles.options}>
         <button onClick={() => history.push("/")}>Home</button>
         <button onClick={() => history.push("/test")}>Test</button>
         <button onClick={() => history.push("/utils")}>Utils</button>
+        <button onClick={() => history.push("/game/create")}>Create Game</button>
+        <button onClick={() => history.push("/player/create")}>Create Game</button>
         <RiSettings5Fill size="40" />
       </div>
     </div>

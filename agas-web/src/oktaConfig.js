@@ -12,6 +12,10 @@ const config = {
   },
   resourceServer: {
     messagesUrl: "http://localhost:8080/api/test",
+    createUser: "http://localhost:8080/api/user/create",
+    createGame: "http://localhost:8080/api/game/create",
+    createPlayer: "http://localhost:8080/api/player/create",
+    getAllProfile: "http://localhost:8080/api/user/profile?token=",
   },
 };
 export default config;

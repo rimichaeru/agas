@@ -5,6 +5,7 @@ import styles from "./Test.module.scss";
 
 const Test = () => {
   const { authState, oktaAuth } = useOktaAuth();
+  const [userInfo, setUserInfo] = useState(null);
   const [messages, setMessages] = useState(null);
   const [messageFetchFailed, setMessageFetchFailed] = useState(false);
 
@@ -36,6 +37,100 @@ const Test = () => {
     }
   }, [authState]);
 
+  useEffect(() => {
+    if (!authState || !authState.isAuthenticated) {
+      // When user isn't authenticated, forget any user info
+      setUserInfo(null);
+    } else {
+      oktaAuth.getUser().then((info) => {
+        setUserInfo(info);
+      });
+    }
+  }, [authState, oktaAuth]); // Update if authState changes
+
+  const getGames = () => {
+    fetch("http://localhost:8080/api/game/all", {
+      headers: {
+        Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+  const createGame = () => {
+    fetch(config.resourceServer.createGame, {
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: "test2",
+        description: "test2",
+        user_id: "conceptual@protonmail.com",
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const getPlayers = () => {
+    fetch("http://localhost:8080/api/player/all", {
+      headers: {
+        Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+  const createPlayer = () => {
+    fetch(config.resourceServer.createPlayer, {
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: "",
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const getUsers = () => {
+    fetch("http://localhost:8080/api/user/all", {
+      headers: {
+        Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   return (
     <div>
       <h1>My Messages</h1>
@@ -46,6 +141,17 @@ const Test = () => {
           <p>{messages.messages}</p>
         </div>
       )}
+
+      <div className={styles.buttonContainer}>
+        <button onClick={getUsers}>Get users</button>
+        <button onClick={getGames}>Get games</button>
+        <button onClick={getPlayers}>Get players</button>
+      </div>
+
+      <div className={styles.buttonContainer}>
+        <button onClick={createGame}>Create game</button>
+        <button onClick={createPlayer}>Create player</button>
+      </div>
     </div>
   );
 };

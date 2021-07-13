@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Home.module.scss";
 import { useOktaAuth } from "@okta/okta-react";
+import config from "../../oktaConfig";
 
 const Home = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -13,6 +14,29 @@ const Home = () => {
     } else {
       oktaAuth.getUser().then((info) => {
         setUserInfo(info);
+
+        // Save user in DB if not already
+        fetch(config.resourceServer.createUser, {
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: info.email,
+            uniqueToken: info.sub,
+            givenName: info.given_name,
+            familyName: info.family_name,
+            username: "",
+          }),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+          });
+
         console.log(info);
       });
     }

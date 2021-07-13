@@ -1,16 +1,19 @@
 package com.agas.agasbackend.controllers.users;
 
 
+import com.agas.agasbackend.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.security.oauth2.server.resource.authentication.AbstractOAuth2TokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,6 +33,41 @@ public class UserController {
 
         return result;
     }
+
+    // get all users
+    @GetMapping("/api/user/all")
+    @PreAuthorize("hasAuthority('SCOPE_profile')")
+    public ResponseEntity getAllUsers() {
+        return ResponseEntity.status(HttpStatus.OK).body(userRepo.findAll());
+    }
+
+    // initialise user account
+    @PostMapping("/api/user/create")
+    @PreAuthorize("hasAuthority('SCOPE_email')")
+    public ResponseEntity createUser(@RequestBody User profile) {
+        User userExists = userRepo.findByUniqueToken(profile.getUniqueToken());
+
+        if (userExists == null) {
+            // Add user if doesn't exist
+            User newUser = new User(profile.getId(), profile.getUniqueToken(), profile.getGivenName(), profile.getFamilyName(), "");
+            userRepo.save(newUser);
+            return ResponseEntity.status(HttpStatus.OK).body("New user account created");
+
+        } else {
+            // return error if user exists
+            return ResponseEntity.status(HttpStatus.OK).body("User account already exists");
+        }
+
+    }
+
+    // get all profile information (characters, games)
+    @GetMapping("/api/user/profile")
+    public ResponseEntity getAllProfile(@RequestParam String token) {
+        User userProfile = userRepo.findByUniqueToken(token);
+
+        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+    }
+
 
     // test profile connection
     @GetMapping("/api/userProfile")
