@@ -2,10 +2,8 @@ package com.agas.agasbackend.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="games")
@@ -21,15 +19,17 @@ public class Game {
 
     // JSON field for custom, eg. points/score/info/total
 
-    // OneToMany? link to player IDs
-
-
-
+    // see players in this game
+    @OneToMany
+    private List<Player> players;
 
     public Game() {
 
     }
 
-
-
+    public Game(String name, String description, String owner) {
+        this.name = name;
+        this.description = description;
+        this.owner = owner;
+    }
 }

@@ -20,15 +20,13 @@ function App() {
   let history = useHistory();
 
   const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    await history.replace(toRelativeUrl(originalUri || "/", window.location.origin));
+    history.replace(toRelativeUrl(originalUri || "/", window.location.origin));
   };
 
   return (
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-      <Router>
-        <Nav />
-        <Routes />
-      </Router>
+      <Nav />
+      <Routes />
     </Security>
   );
 }
