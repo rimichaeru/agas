@@ -1,5 +1,6 @@
 package com.agas.agasbackend.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "games")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Game {
 
     @Id
@@ -20,9 +22,12 @@ public class Game {
 
     // see players in this game
     @OneToMany
+    @JoinColumn(name = "game_id")
+    @JsonIgnore
     private List<Player> players;
 
     @OneToOne
+    @JsonIgnore
     private User owner;
 
 

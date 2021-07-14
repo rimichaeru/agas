@@ -49,7 +49,7 @@ public class UserController {
 
         if (userExists == null) {
             // Add user if doesn't exist
-            User newUser = new User(profile.getId(), profile.getUniqueToken(), profile.getGivenName(), profile.getFamilyName(), "");
+            User newUser = new User(profile.getId(), profile.getUniqueToken(), profile.getGivenName(), profile.getFamilyName(), profile.getId());
             userRepo.save(newUser);
             return ResponseEntity.status(HttpStatus.OK).body("New user account created");
 

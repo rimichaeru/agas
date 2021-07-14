@@ -16,6 +16,7 @@ const config = {
     createGame: "http://localhost:8080/api/game/create",
     createPlayer: "http://localhost:8080/api/player/create",
     getAllProfile: "http://localhost:8080/api/user/profile?token=",
+    updatePlayersGames: "http://localhost:8080/api/player/",
   },
 };
 export default config;

@@ -27,14 +27,14 @@ public class PlayerController {
     @GetMapping("/api/player/all")
     @PreAuthorize("hasAuthority('SCOPE_profile')")
     public ResponseEntity getAllPlayers() {
-                return ResponseEntity.status(HttpStatus.OK).body(playerRepo.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(playerRepo.findAll());
     }
 
     // create player and link with user token
     @PostMapping("/api/player/create")
     @PreAuthorize("hasAuthority('SCOPE_email')")
-    public ResponseEntity createPlayer(@RequestParam String token, @RequestBody Player player) {
-
+    public ResponseEntity createPlayer(@RequestBody Player player) {
+        playerRepo.save(player);
         return ResponseEntity.status(HttpStatus.OK).body(player);
     }
 

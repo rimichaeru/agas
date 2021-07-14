@@ -1,10 +1,14 @@
 package com.agas.agasbackend.entities;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
@@ -14,12 +18,12 @@ public class User {
     private String familyName;
     private String username;
 
-    // OneToMany (Games), OneToMany (Players (Characters))
-    // remember that any OneToMany needs to handle .save() of the initial DB entry, AND the .save() on the relationship tables straight after
-    @OneToMany
-    private List<Game> games;
+//    @OneToMany
+//    private List<Game> games;
+    // accessed through players
 
     @OneToMany
+    @JoinColumn(name = "user_id")
     private List<Player> players;
 
     public User() {
@@ -48,10 +52,6 @@ public class User {
 
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
-    }
-
-    public List<Game> getGames() {
-        return games;
     }
 
     public List<Player> getPlayers() {
