@@ -8,7 +8,7 @@ import java.util.List;
 public class User {
 
     @Id
-    private String id;
+    private String id; // ID is the email
     private String uniqueToken;
     private String givenName;
     private String familyName;

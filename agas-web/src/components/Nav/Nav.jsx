@@ -14,7 +14,7 @@ const Nav = () => {
         <button onClick={() => history.push("/test")}>Test</button>
         <button onClick={() => history.push("/utils")}>Utils</button>
         <button onClick={() => history.push("/game/create")}>Create Game</button>
-        <button onClick={() => history.push("/player/create")}>Create Game</button>
+        <button onClick={() => history.push("/player/create")}>Create Player</button>
         <RiSettings5Fill size="40" />
       </div>
     </div>

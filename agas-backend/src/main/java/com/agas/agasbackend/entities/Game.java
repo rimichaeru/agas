@@ -13,7 +13,7 @@ public class Game {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
-    private String name;
+    private String title;
     private String description;
 
     // JSON field for custom, eg. points/score/info/total
@@ -23,19 +23,15 @@ public class Game {
     private List<Player> players;
 
     @OneToOne
-//    @JoinColumns({
-//            @JoinColumn(name = "owner_username", referencedColumnName = "username"),
-//            @JoinColumn(name = "owner_email", referencedColumnName = "email")
-//    })
-    private User user;
+    private User owner;
 
 
     public Game() {
 
     }
 
-    public Game(String name, String description) {
-        this.name = name;
+    public Game(String title, String description) {
+        this.title = title;
         this.description = description;
     }
 
@@ -51,12 +47,12 @@ public class Game {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -67,9 +63,7 @@ public class Game {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public User getOwner() {
+        return owner;
     }
-
-
 }

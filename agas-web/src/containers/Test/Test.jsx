@@ -131,6 +131,30 @@ const Test = () => {
       });
   };
 
+  const localhostTest = () => {
+    fetch("http://localhost:8080/student", {
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: "Ingba",
+        lastName: "Bongbo",
+        age: 35,
+        course: {
+          id: 1,
+        },
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   return (
     <div>
       <h1>My Messages</h1>
@@ -151,6 +175,7 @@ const Test = () => {
       <div className={styles.buttonContainer}>
         <button onClick={createGame}>Create game</button>
         <button onClick={createPlayer}>Create player</button>
+        <button onClick={localhostTest}>Localhost</button>
       </div>
     </div>
   );

@@ -18,7 +18,17 @@ const CreateGame = () => {
     }
   }, [authState, oktaAuth]); // Update if authState changes
 
-  const createGame = () => {
+  if (!userInfo) {
+    return (
+      <div>
+        <p>Setting up game...</p>
+      </div>
+    );
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     fetch(config.resourceServer.createGame, {
       method: "post",
       headers: {
@@ -26,9 +36,11 @@ const CreateGame = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: "",
-        description: "",
-        owner: userInfo.sub,
+        title: e.target[0].value,
+        description: e.target[1].value,
+        owner: {
+          id: userInfo.email,
+        },
       }),
     })
       .then((response) => {
@@ -39,17 +51,15 @@ const CreateGame = () => {
       });
   };
 
-  if (!userInfo) {
-    return (
-      <div>
-        <p>Setting up game...</p>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.container}>
-      <p>Hi</p>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <label htmlFor="title">Title</label>
+        <input type="text" id="title" name="title" />
+        <label htmlFor="description">Description</label>
+        <textarea type="text" id="description" name="description" rows="5" />
+        <input type="submit" className="submitButton" value="Create Game" />
+      </form>
     </div>
   );
 };
