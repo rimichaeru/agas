@@ -41,6 +41,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userRepo.findAll());
     }
 
+    // get single authorised user, gets profile info > players info > games info in this order
+    @GetMapping("/api/user/profile")
+    @PreAuthorize("hasAuthority('SCOPE_profile')")
+    public ResponseEntity getAllUsers(@RequestParam String token) {
+        return ResponseEntity.status(HttpStatus.OK).body(userRepo.findByUniqueToken(token));
+    }
+
     // initialise user account
     @PostMapping("/api/user/create")
     @PreAuthorize("hasAuthority('SCOPE_email')")
@@ -58,14 +65,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body("User account already exists");
         }
 
-    }
-
-    // get all profile information (characters, games)
-    @GetMapping("/api/user/profile")
-    public ResponseEntity getAllProfile(@RequestParam String token) {
-        User userProfile = userRepo.findByUniqueToken(token);
-
-        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
     }
 
 

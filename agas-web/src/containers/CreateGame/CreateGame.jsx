@@ -29,6 +29,8 @@ const CreateGame = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(userInfo.email);
+
     fetch(config.resourceServer.createGame, {
       method: "post",
       headers: {

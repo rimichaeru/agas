@@ -7,10 +7,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "players")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Player {
-
-    // Personal details player class
 
     @Id
     @GeneratedValue
@@ -20,13 +18,11 @@ public class Player {
 
     // ManyToOne (to User)
     @ManyToOne
-    @JsonIgnore
     private User user;
 
-    // OneToMany (Games) - one playerCharacter for many games, eg. Tennis, would usually be OneToOne otherwise
+    // ManyToOne(Games) - many playerCharacter for one game, eg. Tennis
     @ManyToOne
     private Game game;
-
 
     public Player() {
 
@@ -34,6 +30,10 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public int getId() {
@@ -52,15 +52,7 @@ public class Player {
         this.name = name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-
+//    @JsonIgnore
     public User getUser() {
         return user;
     }

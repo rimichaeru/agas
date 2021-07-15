@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
@@ -18,9 +18,6 @@ public class User {
     private String familyName;
     private String username;
 
-//    @OneToMany
-//    private List<Game> games;
-    // accessed through players
 
     @OneToMany
     @JoinColumn(name = "user_id")

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "games")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Game {
 
     @Id
@@ -23,13 +23,14 @@ public class Game {
     // see players in this game
     @OneToMany
     @JoinColumn(name = "game_id")
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Player> players;
 
     @OneToOne
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User owner;
-
 
     public Game() {
 
@@ -38,10 +39,6 @@ public class Game {
     public Game(String title, String description) {
         this.title = title;
         this.description = description;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
     }
 
     public String getId() {
@@ -67,6 +64,14 @@ public class Game {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+//    public List<User> getUsers() {
+//        return users;
+//    }
 
     public User getOwner() {
         return owner;

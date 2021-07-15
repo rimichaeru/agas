@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+
+  .title {
+    margin-bottom: 60px;
+  }
+
+  .playerContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+    gap: 30px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 60px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 3px black;
+
+    .player {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      & > p {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .gameContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    gap: 10px;
+    height: 400px;
+    width: 90vw;
+    flex-wrap: wrap;
+
+    .game {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid black;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 1px 2px 3px black;
+
+      & > p {
+        font-size: 12px;
+      }
+    }
+  }
+}

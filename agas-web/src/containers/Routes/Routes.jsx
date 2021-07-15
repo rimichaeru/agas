@@ -10,6 +10,7 @@ import CreateGame from "../CreateGame";
 import CreatePlayer from "../CreatePlayer";
 import GameScreen from "../GameScreen";
 import PlayerScreen from "../PlayerScreen";
+import Profile from "../Profile";
 
 // Use SecureRoute from okta-react for AUTH-ONLY areas
 
@@ -38,7 +39,8 @@ const Routes = () => {
         <Test />
       </SecureRoute>
       <Route path="/login/callback" component={LoginCallback} />
-      <SecureRoute path="/profile" component={UserProfile} />
+      <SecureRoute path="/user-profile" component={UserProfile} />
+      <SecureRoute path="/profile" component={Profile} />
     </Switch>
   );
 };
