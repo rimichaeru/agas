@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import styles from "./CreateGame.module.scss";
 import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
+import { useHistory } from "react-router-dom";
 
 const CreateGame = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     if (!authState || !authState.isAuthenticated) {
@@ -29,8 +31,6 @@ const CreateGame = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(userInfo.email);
-
     fetch(config.resourceServer.createGame, {
       method: "post",
       headers: {
@@ -51,13 +51,15 @@ const CreateGame = () => {
       .then((data) => {
         console.log(data);
       });
+
+      history.push("/player/create")
   };
 
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label htmlFor="title">Title</label>
-        <input type="text" id="title" name="title" />
+        <input type="text" className={styles.title} id="title" name="title" />
         <label htmlFor="description">Description</label>
         <textarea type="text" id="description" name="description" rows="5" />
         <input type="submit" className="submitButton" value="Create Game" />

@@ -23,6 +23,8 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Player> players;
 
+
+
     public User() {
 
     }

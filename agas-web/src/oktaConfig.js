@@ -12,11 +12,18 @@ const config = {
   },
   resourceServer: {
     messagesUrl: "http://localhost:8080/api/test",
+
     createUser: "http://localhost:8080/api/user/create",
+
     createGame: "http://localhost:8080/api/game/create",
+    getGameByID: "http://localhost:8080/api/game/id?id=",
+    getGamesByOwner: "http://localhost:8080/api/game/owner?owner=",
+    cloneGame: "http://localhost:8080/api/game/clone?code=",
+
     createPlayer: "http://localhost:8080/api/player/create",
-    getAllProfile: "http://localhost:8080/api/user/profile?token=",
     updatePlayersGames: "http://localhost:8080/api/player/",
+
+    getAllProfile: "http://localhost:8080/api/user/profile?token=",
   },
 };
 export default config;

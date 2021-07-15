@@ -9,6 +9,11 @@
     flex-direction: column;
     width: 260px;
 
+    .title {
+      text-align: center;
+      color: rgb(134, 0, 134);
+    }
+
     & > * {
       border-radius: 4px;
     }

@@ -4,6 +4,24 @@
   align-items: center;
   margin: 40px;
 
+  .gameCode {
+    display: flex;
+    justify-content: space-evenly;
+    width: 260px;
+    align-items: center;
+
+    button {
+      width: 42%;
+    }
+
+    input {
+      border-radius: 4px;
+      width: 50%;
+      font-size: 14px;
+      height: 32px;
+    }
+  }
+
   .form {
     display: flex;
     flex-direction: column;

@@ -132,20 +132,20 @@ const Test = () => {
   };
 
   const localhostTest = () => {
-    fetch("http://localhost:8080/student", {
-      method: "post",
+    fetch("http://localhost:8080/api/game/owner?owner=conceptual@protonmail.com", {
+      // method: "post",
       headers: {
         Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        firstName: "Ingba",
-        lastName: "Bongbo",
-        age: 35,
-        course: {
-          id: 1,
-        },
-      }),
+      // body: JSON.stringify({
+      //   firstName: "Ingba",
+      //   lastName: "Bongbo",
+      //   age: 35,
+      //   course: {
+      //     id: 1,
+      //   },
+      // }),
     })
       .then((response) => {
         return response.json();

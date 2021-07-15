@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styles from "./Profile.module.scss";
 import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
-import { render } from "@testing-library/react";
 
 const Profile = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -82,14 +81,10 @@ const Profile = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.title}>
-        <h2>Welcome {userInfo.username}</h2>
-      </div>
-
-      <h3>Players</h3>
+      <h3>Your Players</h3>
       <div className={styles.playerContainer}>{renderPlayers.length ? renderPlayers : "Please create a player!"}</div>
 
-      <h3>Games</h3>
+      <h3>Your Games</h3>
       <div className={styles.gameContainer}>{renderGames.length ? renderGames : "Please create or join a game!"}</div>
     </div>
   );

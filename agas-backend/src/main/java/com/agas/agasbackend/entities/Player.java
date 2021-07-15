@@ -16,11 +16,9 @@ public class Player {
     private String name;
     // JSON field for custom, eg. points/score/stats/total
 
-    // ManyToOne (to User)
     @ManyToOne
     private User user;
 
-    // ManyToOne(Games) - many playerCharacter for one game, eg. Tennis
     @ManyToOne
     private Game game;
 

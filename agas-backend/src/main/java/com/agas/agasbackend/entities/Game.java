@@ -23,12 +23,10 @@ public class Game {
     // see players in this game
     @OneToMany
     @JoinColumn(name = "game_id")
-//    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Player> players;
 
     @OneToOne
-//    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User owner;
 
@@ -43,6 +41,10 @@ public class Game {
 
     public String getId() {
         return id;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public void setId(String id) {

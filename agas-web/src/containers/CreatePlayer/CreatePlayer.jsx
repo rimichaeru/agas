@@ -8,6 +8,7 @@ const CreatePlayer = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const [gameList, setGameList] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const history = useHistory();
 
@@ -18,9 +19,16 @@ const CreatePlayer = () => {
     } else {
       oktaAuth.getUser().then((info) => {
         setUserInfo(info);
+        getGames(info.email);
       });
     }
   }, [authState, oktaAuth]); // Update if authState changes
+
+  useEffect(() => {
+    if (userInfo) {
+      getGames(userInfo.email);
+    }
+  }, [refresh]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,8 +57,8 @@ const CreatePlayer = () => {
       });
   };
 
-  const getGames = () => {
-    fetch("http://localhost:8080/api/game/all", {
+  const getGames = (userEmail) => {
+    fetch(config.resourceServer.getGamesByOwner + userEmail, {
       headers: {
         Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
         "Content-Type": "application/json",
@@ -69,9 +77,29 @@ const CreatePlayer = () => {
       });
   };
 
-  useEffect(() => {
-    getGames();
-  }, []);
+  const handleGameCode = (e) => {
+    e.preventDefault();
+
+    fetch(
+      config.resourceServer.cloneGame +
+        e.target[1].value +
+        "&user=" +
+        userInfo.email,
+      {
+        headers: {
+          Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setRefresh(!refresh);
+      });
+  };
 
   if (!userInfo) {
     return (
@@ -83,6 +111,10 @@ const CreatePlayer = () => {
 
   return (
     <div className={styles.container}>
+      <form onSubmit={handleGameCode} className={styles.gameCode}>
+        <button>Add Game Code</button>
+        <input type="text" placeholder="Import Game Code" />
+      </form>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label for="games">Select Game:</label>
         <select name="games" id="games">
