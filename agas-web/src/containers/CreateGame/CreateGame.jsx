@@ -3,10 +3,14 @@ import styles from "./CreateGame.module.scss";
 import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
 import { useHistory } from "react-router-dom";
+import { BsPlusCircle } from "react-icons/bs";
+import AddProp from "../../components/AddProp/AddProp";
+import NewProp from "../../components/NewProp/NewProp";
 
 const CreateGame = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
+  const [propertiesRender, setPropertiesRender] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -31,6 +35,10 @@ const CreateGame = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const addProperties = () => {
+      return {};
+    };
+
     fetch(config.resourceServer.createGame, {
       method: "post",
       headers: {
@@ -40,6 +48,7 @@ const CreateGame = () => {
       body: JSON.stringify({
         title: e.target[0].value,
         description: e.target[1].value,
+        properties: addProperties(),
         owner: {
           id: userInfo.email,
         },
@@ -52,7 +61,14 @@ const CreateGame = () => {
         console.log(data);
       });
 
-      history.push("/player/create")
+    history.push("/player/create");
+  };
+
+  const createProperty = () => {
+    let existingProps = [...propertiesRender];
+    existingProps = existingProps.concat([<NewProp />]);
+
+    setPropertiesRender(existingProps);
   };
 
   return (
@@ -62,6 +78,8 @@ const CreateGame = () => {
         <input type="text" className={styles.title} id="title" name="title" />
         <label htmlFor="description">Description</label>
         <textarea type="text" id="description" name="description" rows="5" />
+        <div className="propGrid">{propertiesRender}</div>
+        <AddProp onClick={createProperty} />
         <input type="submit" className="submitButton" value="Create Game" />
       </form>
     </div>
