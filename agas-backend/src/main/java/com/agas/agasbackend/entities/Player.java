@@ -1,20 +1,29 @@
 package com.agas.agasbackend.entities;
 
 import com.fasterxml.jackson.annotation.*;
+import com.vladmihalcea.hibernate.type.json.JsonType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "players")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Player {
 
     @Id
     @GeneratedValue
     private int id;
     private String name;
+
     // JSON field for custom, eg. points/score/stats/total
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private Map<String, String> properties = new HashMap<>();
 
     @ManyToOne
     private User user;

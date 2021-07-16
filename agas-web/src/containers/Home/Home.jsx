@@ -27,7 +27,7 @@ const Home = () => {
             uniqueToken: info.sub,
             givenName: info.given_name,
             familyName: info.family_name,
-            username: info.email,
+            username: info.preferred_username,
           }),
         })
           .then((response) => {

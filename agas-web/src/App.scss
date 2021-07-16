@@ -1,13 +1,14 @@
-* { 
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   box-sizing: border-box;
 }
 
-
-h1, h2, h3 {
-  font-family: 'Zen Tokyo Zoo', cursive;
+h1,
+h2,
+h3 {
+  font-family: "Zen Tokyo Zoo", cursive;
 }
 
 button {
@@ -18,8 +19,23 @@ button {
 input {
   height: 36px;
   font-size: 26px;
+  border-radius: 4px;
+}
+
+textarea {
+  border-radius: 4px;
 }
 
 .submitButton {
   height: 40px;
+  margin-top: 40px;
+  cursor: pointer;
+}
+
+.propGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }
