@@ -73,11 +73,15 @@ const CreateGame = () => {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
+        onInvalid={() => {}}
+      >
         <label htmlFor="title">Title</label>
-        <input type="text" className={styles.title} id="title" name="title" />
+        <input type="text" className={styles.title} id="title" name="title" required />
         <label htmlFor="description">Description</label>
-        <textarea type="text" id="description" name="description" rows="5" />
+        <textarea type="text" id="description" name="description" rows="3" />
         <div className="propGrid">{propertiesRender}</div>
         <AddProp onClick={createProperty} />
         <input type="submit" className="submitButton" value="Create Game" />

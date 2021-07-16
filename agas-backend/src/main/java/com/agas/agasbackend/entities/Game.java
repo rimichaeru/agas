@@ -50,7 +50,8 @@ public class Game {
     }
 
 
-
+    // Next 3 for get, set, and add properties
+    // returns Game rather than void
     public Map<String, String> getProperties() {
         return properties;
     }

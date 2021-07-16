@@ -39,6 +39,23 @@ public class Player {
         this.name = name;
     }
 
+
+    // Next 3 for get, set, and add properties
+    // returns Player rather than void
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public Player setProperties(Map<String, String> properties) {
+        this.properties = properties;
+        return this;
+    }
+
+    public Player addProperty(String key, String value) {
+        properties.put(key, value);
+        return this;
+    }
+
     public void setGame(Game game) {
         this.game = game;
     }

@@ -5,6 +5,19 @@
   box-sizing: border-box;
 }
 
+$colour-grey: rgb(211, 211, 211);
+$colour-purple: rgb(102, 0, 170);
+$colour-purple-light: rgba(102, 0, 170, 0.7);
+$colour-purple-passive: rgba(102, 0, 170, 0.1);
+$colour-blue: rgb(0, 45, 170);
+$colour-blue-light: rgba(0, 45, 170, 0.7);
+$colour-green: rgb(0, 170, 9);
+$colour-green-light: rgba(0, 170, 9, 0.7);
+$colour-orange: rgb(197, 122, 0);
+$colour-orange-light: rgba(197, 122, 0, 0.7);
+
+$font-size-body: 16px;
+
 h1,
 h2,
 h3 {
@@ -30,6 +43,13 @@ textarea {
   height: 40px;
   margin-top: 40px;
   cursor: pointer;
+  border: 1px solid black;
+  box-shadow: 2px 2px 3px black;
+  background-color: $colour-purple-passive;
+
+  &:hover {
+    background-color: $colour-purple-light;
+  }
 }
 
 .propGrid {

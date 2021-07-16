@@ -1,7 +1,9 @@
+@import "../../App.scss";
+
 .container {
   top: 0;
   display: flex;
-  background-color: rgb(211, 211, 211);
+  background-color: $colour-grey;
   height: 60px;
   justify-content: space-between;
   align-items: center;
