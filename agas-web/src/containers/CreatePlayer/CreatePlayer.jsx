@@ -103,8 +103,8 @@ const CreatePlayer = () => {
 
   if (!userInfo) {
     return (
-      <div>
-        <p>Setting up game...</p>
+      <div className={styles.container}>
+        <p>Setting up player...</p>
       </div>
     );
   }

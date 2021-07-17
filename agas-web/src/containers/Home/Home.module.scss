@@ -1,6 +1,30 @@
+@import "../../App.scss";
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 30px;
+  padding: 40px;
+  gap: 20px;
+  text-align: center;
+
+  p {
+    width: 500px;
+    margin-bottom: 20px;
+  }
+
+  .bars {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    bottom: 34vh;
+
+    .bar {
+      height: 10px;
+      width: 100vw;
+      background-color: $colour-grey;
+      // border: 1px solid black;
+    }
+  }
 }

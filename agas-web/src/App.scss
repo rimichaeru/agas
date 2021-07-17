@@ -7,7 +7,7 @@
 
 $colour-grey: rgb(211, 211, 211);
 $colour-purple: rgb(102, 0, 170);
-$colour-purple-light: rgba(102, 0, 170, 0.7);
+$colour-purple-light: rgba(191, 94, 255, 0.835);
 $colour-purple-passive: rgba(102, 0, 170, 0.1);
 $colour-blue: rgb(0, 45, 170);
 $colour-blue-light: rgba(0, 45, 170, 0.7);
@@ -27,6 +27,15 @@ h3 {
 button {
   height: 30px;
   width: auto;
+  padding: 6px;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: $colour-purple-passive;
+  box-shadow: 1px 1px 2px $colour-grey;
+
+  &:hover {
+    background-color: $colour-purple-light;
+  }
 }
 
 input {

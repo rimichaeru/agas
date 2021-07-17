@@ -73,7 +73,7 @@ const Profile = () => {
 
   if (!userInfo) {
     return (
-      <div>
+      <div className={styles.container}>
         <p>Loading Your Profile...</p>
       </div>
     );
@@ -81,11 +81,11 @@ const Profile = () => {
 
   return (
     <div className={styles.container}>
-      <h3>Your Players</h3>
+      <h2>PLAYERS</h2>
       <div className={styles.playerContainer}>{renderPlayers.length ? renderPlayers : "Please create a player!"}</div>
 
-      <h3>Your Games</h3>
-      <div className={styles.gameContainer}>{renderGames.length ? renderGames : "Please create or join a game!"}</div>
+      <h2>GAMES</h2>
+      <div className={styles.gameContainer}>{renderGames.length ? renderGames : "Please create or add a game!"}</div>
     </div>
   );
 };

@@ -156,8 +156,8 @@ const Test = () => {
   };
 
   return (
-    <div>
-      <h1>My Messages</h1>
+    <div className={styles.container}>
+      <h1>Test Bed</h1>
       {messageFetchFailed && "FETCH FAILED"}
       {!messages && !messageFetchFailed && <p>Fetching Messages..</p>}
       {messages && (

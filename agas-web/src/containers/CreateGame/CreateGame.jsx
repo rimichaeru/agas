@@ -40,7 +40,7 @@ const CreateGame = () => {
 
   if (!userInfo) {
     return (
-      <div>
+      <div className={styles.container}>
         <p>Setting up game...</p>
       </div>
     );
@@ -50,6 +50,39 @@ const CreateGame = () => {
     e.preventDefault();
 
     const getPropsForDB = () => {
+      // form could have many fields, target 0 and 1 are title and description
+      // must include all fields without knowing the limit
+      // Each property is in 3s; fieldname, type, value
+
+      let propertyDictionary = {};
+      let singleProperty = {};
+      let propertyIndex = 0;
+
+      for (let i = 2; i < e.target.length; i++) {
+        // adds to full properties and resets single
+        if (Object.keys(singleProperty).length == 3) {
+          propertyDictionary[propertyIndex] = singleProperty;
+          propertyIndex++;
+          singleProperty = {};
+        }
+
+        if (Object.keys(singleProperty).length == 0) {
+          singleProperty["name"] = e.target[i].value;
+        } else if (Object.keys(singleProperty).length == 1) {
+          singleProperty["type"] = e.target[i].value;
+        } else {
+          singleProperty["value"] = e.target[i].value;
+        }
+
+        // stops before submit button
+        if (e.target[i].className == "submitButton") {
+          console.log("found submit");
+          break;
+        }
+      }
+
+      console.log(propertyDictionary);
+
       return {};
     };
 

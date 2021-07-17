@@ -12,8 +12,6 @@ import config from "./oktaConfig";
 
 const oktaAuth = new OktaAuth(config.oidc);
 
-// const CALLBACK_PATH = '/login/callback';
-
 // PROGRESSIVE WEB APP
 // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen
 // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Installable_PWAs
@@ -23,7 +21,8 @@ function App() {
   let history = useHistory();
 
   const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    history.replace(toRelativeUrl(originalUri || "/", window.location.origin));
+    // history.replace(toRelativeUrl(originalUri || "/", window.location.origin));
+    history.replace(toRelativeUrl("/profile", window.location.origin));
   };
 
   return (

@@ -44,13 +44,6 @@ const Home = () => {
 
   // tokens can be renewed by hitting the /authorize endpoint. See Get a new access token/ID token silently for your SPA+ https://developer.okta.com/docs/guides/refresh-tokens/get-refresh-token/#get-a-new-access-token-id-token-silently-for-your-spa
 
-  // const accessToken = authState.accessToken; // access token for APIs
-  // const response = await fetch(url, {
-  //   headers: {
-  //     Authorization: `Bearer ${accessToken}`,
-  //   },
-  // });
-
   const login = async () => {
     oktaAuth.signInWithRedirect({ originalUri: "/" });
   };
@@ -61,77 +54,43 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <div>
-        <h1>PKCE Flow w/ Okta Hosted Login Page</h1>
+      <h1>AGAS</h1>
 
-        {authState.isAuthenticated && !userInfo && (
-          <div>Loading user information...</div>
-        )}
+      {authState.isAuthenticated && !userInfo && (
+        <p>Loading user information...</p>
+      )}
 
-        {authState.isAuthenticated && userInfo && (
-          <div>
-            <p>
-              Welcome, &nbsp;
-              {userInfo.name}!
-            </p>
-            <p>
-              You have successfully authenticated against your Okta org, and
-              have been redirected back to this application. You now have an ID
-              token and access token in local storage. Visit the{" "}
-              <a href="/user-profile">My Profile</a> page to take a look inside the
-              ID token.
-            </p>
-            <h3>Next Steps</h3>
-            <p>
-              Currently this application is a stand-alone front end application.
-              At this point you can use the access token to authenticate
-              yourself against resource servers that you control.
-            </p>
-            <p>
-              This sample is designed to work with one of our resource server
-              examples. To see access token authentication in action, please
-              download one of these resource server examples:
-            </p>
-            <ul>
-              <li>Resource Examples</li>
-            </ul>
-            <p>
-              Once you have downloaded and started the example resource server,
-              you can visit the <a href="/messages"> My Messages</a> page to see
-              the authentication process in action.
-            </p>
-          </div>
-        )}
+      {authState.isAuthenticated && userInfo && (
+        <div>
+          <p>
+            Welcome, &nbsp;
+            {userInfo.name}!
+          </p>
+          <p>
+            <a href="/profile">My Profile</a>
+          </p>
+        </div>
+      )}
 
-        {!authState.isAuthenticated && (
-          <div>
-            <p>
-              If you&lsquo;re viewing this page then you have successfully
-              started this React application.
-            </p>
-            <p>
-              <span>This example shows you how to use the </span>
-              <a href="https://github.com/okta/okta-react/tree/master">
-                Okta React Library
-              </a>
-              <span> to add the </span>
-              <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">
-                PKCE Flow
-              </a>
-              <span> to your application.</span>
-            </p>
-            <p>
-              When you click the login button below, you will be redirected to
-              the login page on your Okta org. After you authenticate, you will
-              be returned to this application with an ID token and access token.
-              These tokens will be stored in local storage and can be retrieved
-              at a later time.
-            </p>
-            <button id="login-button" primary onClick={login}>
-              Login
-            </button>
-          </div>
-        )}
+      {!authState.isAuthenticated && (
+        <div>
+          <p>Welcome to Any Game Any Score!</p>
+          <p>
+            {" "}
+            Login to create a game profile to keep track of ANY GAME (Tennis,
+            DnD, Monopoly, etc.) and, if needed, create custom PLAYER profiles
+            for those games, too!{" "}
+          </p>
+          
+          <button id="login-button" primary onClick={login}>
+            Login
+          </button>
+        </div>
+      )}
+
+      <div className={styles.bars}>
+        <div className={styles.bar}></div>
+        <div className={styles.bar}></div>
       </div>
     </div>
   );

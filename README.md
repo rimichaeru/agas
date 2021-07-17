@@ -14,4 +14,4 @@ Also utilises custom JSON fields to provide flexibility with the user-created ga
 
 
 ###### Front End
-Built with React JS and employs Secure Routing via Okta and react-router-dom. 
+Built with React JS and employs PKCE Auth Flow for an SPA, along with Secure Routing via Okta and react-router-dom. 
