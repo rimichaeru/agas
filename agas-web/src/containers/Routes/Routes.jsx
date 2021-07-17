@@ -23,13 +23,13 @@ const Routes = () => {
       <Route path="/utils">
         <Utils />
       </Route>
-      <Route path="/game/create">
+      <Route exact path="/game/create">
         <CreateGame />
       </Route>
       <Route path="/game/:gameid">
         <GameScreen />
       </Route>
-      <Route path="/player/create">
+      <Route exact path="/player/create">
         <CreatePlayer />
       </Route>
       <Route path="/player/:playerid">

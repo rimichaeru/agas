@@ -7,9 +7,11 @@ const Profile = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const [renderPlayers, setRenderPlayers] = useState([]);
-  const [gameList, setGameList] = useState([]);
   const [renderGames, setRenderGames] = useState([]);
   const [refresh, setRefresh] = useState(false);
+
+  const [allGameData, setAllGameData] = useState(null);
+  const [allPlayerData, setAllPlayerData] = useState(null);
 
   const getProfilePlayers = (profileData) => {
     setRenderPlayers(
@@ -24,29 +26,6 @@ const Profile = () => {
     );
   };
 
-  // const getProfileGames = (profileData) => {
-  //   const uniqueGamesList = [];
-  //   const gameIDList = [];
-
-  //   profileData.players.map((player) => {
-  //     if (!gameIDList.includes(player.game.id)) {
-  //       uniqueGamesList.push(player.game);
-  //       gameIDList.push(player.game.id);
-  //     }
-  //   });
-
-  //   setRenderGames(
-  //     uniqueGamesList.map((game) => {
-  //       return (
-  //         <div className={styles.game} key={game.title}>
-  //           <h4>{game.title}</h4>
-  //           <p>{game.description}</p>
-  //         </div>
-  //       );
-  //     })
-  //   );
-  // };
-
   const getGames = (userEmail) => {
     fetch(config.resourceServer.getGamesByOwner + userEmail, {
       headers: {
@@ -58,18 +37,19 @@ const Profile = () => {
         return response.json();
       })
       .then((data) => {
+        setAllGameData(data);
+
         setRenderGames(
           data.map((game) => {
             return (
               <div className={styles.game} key={game.title}>
                 <h4>{game.title}</h4>
                 <p>{game.description}</p>
-                <p style={{fontStyle: "italic"}}>ID: {game.id}</p>
+                <p style={{ fontStyle: "italic" }}>ID: {game.id}</p>
               </div>
             );
           })
         );
-        console.log(data);
       });
   };
 
@@ -92,9 +72,8 @@ const Profile = () => {
             return response.json();
           })
           .then((data) => {
-            console.log(data);
+            setAllPlayerData(data.players);
             getProfilePlayers(data);
-            // getProfileGames(data);
           });
       });
     }
