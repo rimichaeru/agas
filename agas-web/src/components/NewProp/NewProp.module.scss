@@ -25,18 +25,17 @@
     // margin-right: -2px;
   }
 
-
   // name field for num and flag types (shorter)
   .name {
     width: 30%;
-    font-size: 18px;
+    font-size: $font-size-body;
     padding-left: 6px;
   }
 
   // name field for text
   .textName {
     width: 54%;
-    font-size: 18px;
+    font-size: $font-size-body;
     padding-left: 6px;
   }
 

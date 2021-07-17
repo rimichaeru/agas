@@ -7,11 +7,25 @@ import { BsPlusCircle } from "react-icons/bs";
 import AddProp from "../../components/AddProp/AddProp";
 import NewProp from "../../components/NewProp/NewProp";
 
+let internalPropKey = 0;
+
 const CreateGame = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
-  const [propertiesRender, setPropertiesRender] = useState([]);
+
   const history = useHistory();
+
+  const [propertiesRender, setPropertiesRender] = useState([]);
+
+  const deleteProperty = (index) => {
+    console.log("dataKey, index: ", index);
+    console.log("internal: ", internalPropKey);
+    console.log(propertiesRender);
+
+    // let existingProps = [...propertiesRender];
+    // existingProps.splice(index, 1);
+    // setPropertiesRender(existingProps);
+  };
 
   useEffect(() => {
     if (!authState || !authState.isAuthenticated) {
@@ -35,7 +49,7 @@ const CreateGame = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const addProperties = () => {
+    const getPropsForDB = () => {
       return {};
     };
 
@@ -48,7 +62,7 @@ const CreateGame = () => {
       body: JSON.stringify({
         title: e.target[0].value,
         description: e.target[1].value,
-        properties: addProperties(),
+        properties: getPropsForDB(),
         owner: {
           id: userInfo.email,
         },
@@ -66,8 +80,18 @@ const CreateGame = () => {
 
   const createProperty = () => {
     let existingProps = [...propertiesRender];
-    existingProps = existingProps.concat([<NewProp />]);
+    console.log("create prop, exist:", existingProps);
 
+    internalPropKey++;
+    console.log("increase internal to: ", internalPropKey);
+
+    existingProps = existingProps.concat([
+      <NewProp
+        key={internalPropKey}
+        dataKey={propertiesRender.length}
+        deleteProperty={deleteProperty}
+      />,
+    ]);
     setPropertiesRender(existingProps);
   };
 
@@ -79,7 +103,13 @@ const CreateGame = () => {
         onInvalid={() => {}}
       >
         <label htmlFor="title">Title</label>
-        <input type="text" className={styles.title} id="title" name="title" required />
+        <input
+          type="text"
+          className={styles.title}
+          id="title"
+          name="title"
+          required
+        />
         <label htmlFor="description">Description</label>
         <textarea type="text" id="description" name="description" rows="3" />
         <div className="propGrid">{propertiesRender}</div>

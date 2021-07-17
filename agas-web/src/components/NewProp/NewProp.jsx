@@ -3,7 +3,7 @@ import styles from "./NewProp.module.scss";
 import { MdCancel } from "react-icons/md";
 import { FcCancel } from "react-icons/fc";
 
-const NewProp = () => {
+const NewProp = (props) => {
   const [type, setType] = useState("num");
   const [bgColour, setBgColour] = useState(styles.numColour);
 
@@ -20,9 +20,19 @@ const NewProp = () => {
   return (
     <div className={`${styles.container} ${bgColour}`}>
       {/* <MdCancel size="18px" color="red" cursor="pointer" /> */}
-      <FcCancel size="18px" cursor="pointer" className={styles.cancel} />
+      <FcCancel
+        size="18px"
+        cursor="pointer"
+        className={styles.cancel}
+        onClick={() => props.deleteProperty(props.dataKey)}
+      />
 
-      <input type="text" placeholder="Name" className={type == "text" ? styles.textName : styles.name} required />
+      <input
+        type="text"
+        placeholder="Name"
+        className={type == "text" ? styles.textName : styles.name}
+        required
+      />
 
       <select
         name="type"
