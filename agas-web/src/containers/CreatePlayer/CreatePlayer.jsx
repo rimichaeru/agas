@@ -3,6 +3,8 @@ import styles from "./CreatePlayer.module.scss";
 import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
 import { useHistory } from "react-router-dom";
+import AddProp from "../../components/AddProp/AddProp";
+import NewProp from "../../components/NewProp/NewProp";
 
 const CreatePlayer = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -11,6 +13,20 @@ const CreatePlayer = () => {
   const [refresh, setRefresh] = useState(false);
 
   const history = useHistory();
+
+  const [propertyIds, setPropertyIds] = useState([]);
+  const [actualRender, setActualRender] = useState([]);
+
+  const deleteProperty = (propertyId) => {
+    // propertyId is unique ID
+    console.log(propertyId);
+
+    setPropertyIds(
+      propertyIds.filter((property) => {
+        return property != propertyId;
+      })
+    );
+  };
 
   useEffect(() => {
     if (!authState || !authState.isAuthenticated) {
@@ -25,6 +41,20 @@ const CreatePlayer = () => {
   }, [authState, oktaAuth]); // Update if authState changes
 
   useEffect(() => {
+    setActualRender(
+      propertyIds.map((propertyId) => {
+        return (
+          <NewProp
+            key={propertyId}
+            propertyId={propertyId}
+            deleteProperty={deleteProperty}
+          />
+        );
+      })
+    );
+  }, [propertyIds]);
+
+  useEffect(() => {
     if (userInfo) {
       getGames(userInfo.email);
     }
@@ -32,6 +62,28 @@ const CreatePlayer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const getPropsForDB = () => {
+      // form could have many fields, target 0 and 1 are title and description
+      // must include all fields without knowing the limit
+      // Each property is in 3s; fieldname, type, value
+
+      let propertyDictionary = {};
+
+      for (let i = 2; i < e.target.length; i++) {
+        if (e.target[i].className == "submitButton") {
+          console.log("found submit");
+          break;
+        }
+
+        if ((i + 1) % 3 == 0) {
+          propertyDictionary[e.target[i].value] =
+            e.target[i + 1].value + "-" + e.target[i + 2].value;
+        }
+      }
+
+      return propertyDictionary;
+    };
 
     fetch(config.resourceServer.createPlayer, {
       method: "post",
@@ -41,6 +93,7 @@ const CreatePlayer = () => {
       },
       body: JSON.stringify({
         name: e.target[1].value,
+        properties: getPropsForDB(),
         user: {
           id: userInfo.email,
         },
@@ -101,6 +154,31 @@ const CreatePlayer = () => {
       });
   };
 
+  const createProperty = () => {
+    if (propertyIds.length >= 60) {
+      alert("Too many properties, please keep under 60!");
+      return;
+    }
+
+    let existingProps = [...propertyIds];
+
+    const idExists = (propId) => {
+      if (propertyIds.includes(propId)) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    let propId = Math.floor(Math.random() * 10000);
+    while (idExists(propId)) {
+      propId = Math.floor(Math.random() * 10000);
+    }
+
+    existingProps.push(propId);
+    setPropertyIds(existingProps);
+  };
+
   if (!userInfo) {
     return (
       <div className={styles.container}>
@@ -134,6 +212,8 @@ const CreatePlayer = () => {
         </select>
         <label htmlFor="name">Name</label>
         <input type="text" id="name" name="name" />
+        <div className="propGrid">{actualRender}</div>
+        <AddProp onClick={createProperty} />
         <input type="submit" className="submitButton" value="Create Player" />
       </form>
     </div>

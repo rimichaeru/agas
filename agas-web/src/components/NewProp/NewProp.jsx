@@ -24,7 +24,7 @@ const NewProp = (props) => {
         size="18px"
         cursor="pointer"
         className={styles.cancel}
-        onClick={() => props.deleteProperty(props.dataKey)}
+        onClick={() => props.deleteProperty(props.propertyId)}
       />
 
       <input

@@ -1,3 +1,5 @@
+@import "../../App.scss";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -7,7 +9,7 @@
   .gameCode {
     display: flex;
     justify-content: space-evenly;
-    width: 260px;
+    width: 300px;
     align-items: center;
 
     button {
@@ -26,10 +28,17 @@
   .form {
     display: flex;
     flex-direction: column;
-    width: 260px;
+    width: 300px;
+    height: auto;
 
-    & > * {
-      border-radius: 4px;
+    .title {
+      text-align: center;
+      color: $colour-purple;
+    }
+
+    textarea {
+      max-width: 300px;
+      font-size: $font-size-body;
     }
 
     label {

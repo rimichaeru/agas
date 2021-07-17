@@ -3,11 +3,8 @@ import styles from "./CreateGame.module.scss";
 import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
 import { useHistory } from "react-router-dom";
-import { BsPlusCircle } from "react-icons/bs";
 import AddProp from "../../components/AddProp/AddProp";
 import NewProp from "../../components/NewProp/NewProp";
-
-let internalPropKey = 0;
 
 const CreateGame = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -15,16 +12,18 @@ const CreateGame = () => {
 
   const history = useHistory();
 
-  const [propertiesRender, setPropertiesRender] = useState([]);
+  const [propertyIds, setPropertyIds] = useState([]);
+  const [actualRender, setActualRender] = useState([]);
 
-  const deleteProperty = (index) => {
-    console.log("dataKey, index: ", index);
-    console.log("internal: ", internalPropKey);
-    console.log(propertiesRender);
+  const deleteProperty = (propertyId) => {
+    // propertyId is unique ID
+    console.log(propertyId);
 
-    // let existingProps = [...propertiesRender];
-    // existingProps.splice(index, 1);
-    // setPropertiesRender(existingProps);
+    setPropertyIds(
+      propertyIds.filter((property) => {
+        return property != propertyId;
+      })
+    );
   };
 
   useEffect(() => {
@@ -38,13 +37,19 @@ const CreateGame = () => {
     }
   }, [authState, oktaAuth]); // Update if authState changes
 
-  if (!userInfo) {
-    return (
-      <div className={styles.container}>
-        <p>Setting up game...</p>
-      </div>
+  useEffect(() => {
+    setActualRender(
+      propertyIds.map((propertyId) => {
+        return (
+          <NewProp
+            key={propertyId}
+            propertyId={propertyId}
+            deleteProperty={deleteProperty}
+          />
+        );
+      })
     );
-  }
+  }, [propertyIds]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,35 +60,20 @@ const CreateGame = () => {
       // Each property is in 3s; fieldname, type, value
 
       let propertyDictionary = {};
-      let singleProperty = {};
-      let propertyIndex = 0;
 
       for (let i = 2; i < e.target.length; i++) {
-        // adds to full properties and resets single
-        if (Object.keys(singleProperty).length == 3) {
-          propertyDictionary[propertyIndex] = singleProperty;
-          propertyIndex++;
-          singleProperty = {};
-        }
 
-        if (Object.keys(singleProperty).length == 0) {
-          singleProperty["name"] = e.target[i].value;
-        } else if (Object.keys(singleProperty).length == 1) {
-          singleProperty["type"] = e.target[i].value;
-        } else {
-          singleProperty["value"] = e.target[i].value;
-        }
-
-        // stops before submit button
         if (e.target[i].className == "submitButton") {
           console.log("found submit");
           break;
         }
+
+        if ((i+1) % 3 == 0) {
+          propertyDictionary[e.target[i].value] = e.target[i+1].value + "-" + e.target[i+2].value;
+        }
+
       }
-
-      console.log(propertyDictionary);
-
-      return {};
+      return propertyDictionary;
     };
 
     fetch(config.resourceServer.createGame, {
@@ -112,21 +102,37 @@ const CreateGame = () => {
   };
 
   const createProperty = () => {
-    let existingProps = [...propertiesRender];
-    console.log("create prop, exist:", existingProps);
+    if (propertyIds.length >= 60) {
+      alert("Too many properties, please keep under 60!");
+      return;
+    }
 
-    internalPropKey++;
-    console.log("increase internal to: ", internalPropKey);
+    let existingProps = [...propertyIds];
 
-    existingProps = existingProps.concat([
-      <NewProp
-        key={internalPropKey}
-        dataKey={propertiesRender.length}
-        deleteProperty={deleteProperty}
-      />,
-    ]);
-    setPropertiesRender(existingProps);
+    const idExists = (propId) => {
+      if (propertyIds.includes(propId)) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    let propId = Math.floor(Math.random() * 10000);
+    while (idExists(propId)) {
+      propId = Math.floor(Math.random() * 10000);
+    }
+
+    existingProps.push(propId);
+    setPropertyIds(existingProps);
   };
+
+  if (!userInfo) {
+    return (
+      <div className={styles.container}>
+        <p>Setting up game...</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -145,7 +151,7 @@ const CreateGame = () => {
         />
         <label htmlFor="description">Description</label>
         <textarea type="text" id="description" name="description" rows="3" />
-        <div className="propGrid">{propertiesRender}</div>
+        <div className="propGrid">{actualRender}</div>
         <AddProp onClick={createProperty} />
         <input type="submit" className="submitButton" value="Create Game" />
       </form>

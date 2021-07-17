@@ -7,7 +7,9 @@ const Profile = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const [renderPlayers, setRenderPlayers] = useState([]);
+  const [gameList, setGameList] = useState([]);
   const [renderGames, setRenderGames] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const getProfilePlayers = (profileData) => {
     setRenderPlayers(
@@ -22,27 +24,53 @@ const Profile = () => {
     );
   };
 
-  const getProfileGames = (profileData) => {
-    const uniqueGamesList = [];
-    const gameIDList = [];
+  // const getProfileGames = (profileData) => {
+  //   const uniqueGamesList = [];
+  //   const gameIDList = [];
 
-    profileData.players.map((player) => {
-      if (!gameIDList.includes(player.game.id)) {
-        uniqueGamesList.push(player.game);
-        gameIDList.push(player.game.id);
-      }
-    });
+  //   profileData.players.map((player) => {
+  //     if (!gameIDList.includes(player.game.id)) {
+  //       uniqueGamesList.push(player.game);
+  //       gameIDList.push(player.game.id);
+  //     }
+  //   });
 
-    setRenderGames(
-      uniqueGamesList.map((game) => {
-        return (
-          <div className={styles.game} key={game.title}>
-            <h4>{game.title}</h4>
-            <p>{game.description}</p>
-          </div>
-        );
+  //   setRenderGames(
+  //     uniqueGamesList.map((game) => {
+  //       return (
+  //         <div className={styles.game} key={game.title}>
+  //           <h4>{game.title}</h4>
+  //           <p>{game.description}</p>
+  //         </div>
+  //       );
+  //     })
+  //   );
+  // };
+
+  const getGames = (userEmail) => {
+    fetch(config.resourceServer.getGamesByOwner + userEmail, {
+      headers: {
+        Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
       })
-    );
+      .then((data) => {
+        setRenderGames(
+          data.map((game) => {
+            return (
+              <div className={styles.game} key={game.title}>
+                <h4>{game.title}</h4>
+                <p>{game.description}</p>
+                <p style={{fontStyle: "italic"}}>ID: {game.id}</p>
+              </div>
+            );
+          })
+        );
+        console.log(data);
+      });
   };
 
   useEffect(() => {
@@ -52,6 +80,7 @@ const Profile = () => {
     } else {
       oktaAuth.getUser().then((info) => {
         setUserInfo(info);
+        getGames(info.email);
 
         fetch(config.resourceServer.getAllProfile + info.sub, {
           headers: {
@@ -65,11 +94,17 @@ const Profile = () => {
           .then((data) => {
             console.log(data);
             getProfilePlayers(data);
-            getProfileGames(data);
+            // getProfileGames(data);
           });
       });
     }
   }, [authState, oktaAuth]); // Update if authState changes
+
+  useEffect(() => {
+    if (userInfo) {
+      getGames(userInfo.email);
+    }
+  }, [refresh]);
 
   if (!userInfo) {
     return (
@@ -82,10 +117,14 @@ const Profile = () => {
   return (
     <div className={styles.container}>
       <h2>PLAYERS</h2>
-      <div className={styles.playerContainer}>{renderPlayers.length ? renderPlayers : "Please create a player!"}</div>
+      <div className={styles.playerContainer}>
+        {renderPlayers.length ? renderPlayers : "Please create a player!"}
+      </div>
 
       <h2>GAMES</h2>
-      <div className={styles.gameContainer}>{renderGames.length ? renderGames : "Please create or add a game!"}</div>
+      <div className={styles.gameContainer}>
+        {renderGames.length ? renderGames : "Please create or add a game!"}
+      </div>
     </div>
   );
 };

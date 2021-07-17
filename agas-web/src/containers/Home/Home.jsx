@@ -68,6 +68,11 @@ const Home = () => {
           </p>
           <p>
             <a href="/profile">My Profile</a>
+            <br />
+            <a href="/game/create">Create Game</a>
+            <br />
+            <a href="/player/create">Create Player</a>
+            <br />
           </p>
         </div>
       )}
