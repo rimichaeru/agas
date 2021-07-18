@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Profile.module.scss";
 import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
+import { useHistory } from "react-router-dom";
 
 const Profile = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -9,15 +10,28 @@ const Profile = () => {
   const [renderPlayers, setRenderPlayers] = useState([]);
   const [renderGames, setRenderGames] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const history = useHistory();
 
   const [allGameData, setAllGameData] = useState(null);
   const [allPlayerData, setAllPlayerData] = useState(null);
+
+  const goToGameScreen = (title, id) => {
+    history.push(`/game/${title + "?id=" + id}`);
+  };
+
+  const goToPlayerScreen = (name, id) => {
+    history.push(`/player/${name + "?id=" + id}`);
+  };
 
   const getProfilePlayers = (profileData) => {
     setRenderPlayers(
       profileData.players.map((player) => {
         return (
-          <div className={styles.player} key={player.id}>
+          <div
+            className={styles.player}
+            key={player.id}
+            onClick={() => goToPlayerScreen(player.name, player.id)}
+          >
             <h4>{player.name}</h4>
             <p>{player.game.title}</p>
           </div>
@@ -38,11 +52,16 @@ const Profile = () => {
       })
       .then((data) => {
         setAllGameData(data);
+        console.log(data);
 
         setRenderGames(
           data.map((game) => {
             return (
-              <div className={styles.game} key={game.title}>
+              <div
+                className={styles.game}
+                key={game.id}
+                onClick={() => goToGameScreen(game.title, game.id)}
+              >
                 <h4>{game.title}</h4>
                 <p>{game.description}</p>
                 <p style={{ fontStyle: "italic" }}>ID: {game.id}</p>

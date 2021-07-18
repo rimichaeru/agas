@@ -17,7 +17,6 @@ const CreateGame = () => {
 
   const deleteProperty = (propertyId) => {
     // propertyId is unique ID
-    console.log(propertyId);
 
     setPropertyIds(
       propertyIds.filter((property) => {
@@ -54,6 +53,23 @@ const CreateGame = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // prop names must be unique
+    const propNames = [];
+    for (let i = 2; i < e.target.length; i++) {
+      if (e.target[i].className == "submitButton") {
+        break;
+      }
+
+      if ((i + 1) % 3 == 0) {
+        if (propNames.includes(e.target[i].value)) {
+          alert("Property names must be unique");
+          return;
+        } else {
+          propNames.push(e.target[i].value);
+        }
+      }
+    }
+
     const getPropsForDB = () => {
       // form could have many fields, target 0 and 1 are title and description
       // must include all fields without knowing the limit
@@ -62,16 +78,14 @@ const CreateGame = () => {
       let propertyDictionary = {};
 
       for (let i = 2; i < e.target.length; i++) {
-
         if (e.target[i].className == "submitButton") {
-          console.log("found submit");
           break;
         }
 
-        if ((i+1) % 3 == 0) {
-          propertyDictionary[e.target[i].value] = e.target[i+1].value + "-" + e.target[i+2].value;
+        if ((i + 1) % 3 == 0) {
+          propertyDictionary[e.target[i].value] =
+            e.target[i + 1].value + "-" + e.target[i + 2].value;
         }
-
       }
       return propertyDictionary;
     };
@@ -95,7 +109,7 @@ const CreateGame = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
       });
 
     history.push("/player/create");

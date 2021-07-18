@@ -8,9 +8,32 @@ const Nav = () => {
   const [path, setPath] = useState("");
 
   history.listen((location, action) => {
+    if (
+      location.pathname.includes("/game/") &&
+      !location.pathname.includes("/game/create")
+    ) {
+      const pathString = location.pathname.split("/game/").join("");
+      const gameName = pathString.split("?id=")[0];
+
+      setPath(gameName.toUpperCase());
+      return;
+    } else if (
+      location.pathname.includes("/player/") &&
+      !location.pathname.includes("/player/create")
+    ) {
+      const pathString = location.pathname.split("/player/").join("");
+      const playerName = pathString.split("?id=")[0];
+
+      setPath(playerName.toUpperCase());
+      return;
+    }
+
     const pathArray = location.pathname.split("/");
-    
-    const path = pathArray.length > 1 ? pathArray[pathArray.length-1].toUpperCase() + " " + pathArray[pathArray.length-2].toUpperCase() : pathArray[0].toUpperCase()
+
+    const path =
+      pathArray.length > 2
+        ? pathArray[2].toUpperCase() + " " + pathArray[1].toUpperCase()
+        : pathArray[1].toUpperCase();
 
     setPath(path);
   });
