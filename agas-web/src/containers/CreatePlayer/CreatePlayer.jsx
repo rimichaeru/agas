@@ -198,11 +198,7 @@ const CreatePlayer = () => {
         <select name="games" id="games">
           {gameList.length ? (
             gameList.map((game) => {
-              return (
-                <>
-                  <option value={game[1]}>{game[1]}</option>
-                </>
-              );
+              return <option value={game[1]}>{game[1]}</option>;
             })
           ) : (
             <option value="create" onClick={() => history.push("/game/create")}>

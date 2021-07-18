@@ -7,6 +7,32 @@ const NewProp = (props) => {
   const [type, setType] = useState("num");
   const [bgColour, setBgColour] = useState(styles.numColour);
 
+  // previous props to display; name, type, value
+  const prevPropArr = [];
+  if (props.prevProperties) {
+    // name
+    prevPropArr.push(props.propertyId);
+
+    const thisProps = props.prevProperties[props.propertyId];
+
+    // type; text-, num-, flag- at [0]
+    prevPropArr.push(thisProps.split("-")[0]);
+
+    // value at [1]
+
+    if (thisProps.includes("text-")) {
+      prevPropArr.push(thisProps.split("text-")[1]);
+    } else if (thisProps.includes("num-")) {
+      prevPropArr.push(thisProps.split("num-")[1]);
+    } else {
+      prevPropArr.push(thisProps.split("flag-")[1]);
+    }
+  }
+
+  useEffect(() => {
+    setType(prevPropArr[1])
+  }, [])
+
   useEffect(() => {
     if (type == "num") {
       setBgColour(styles.numColour);
@@ -31,6 +57,7 @@ const NewProp = (props) => {
         type="text"
         placeholder="Name"
         className={type == "text" ? styles.textName : styles.name}
+        defaultValue={prevPropArr.length ? prevPropArr[0] : ""}
         required
       />
 
@@ -40,6 +67,7 @@ const NewProp = (props) => {
         placeholder="Type"
         className={styles.type}
         onChange={(e) => setType(e.target.value)}
+        defaultValue={prevPropArr.length ? prevPropArr[1] : ""}
         required
       >
         <option value="num">Num</option>
@@ -55,7 +83,7 @@ const NewProp = (props) => {
           placeholder="#"
           className={styles.numValue}
           onClick={(e) => e.target.select()}
-          defaultValue={0}
+          defaultValue={prevPropArr.length ? prevPropArr[2] : 0}
           required
         />
       ) : null}
@@ -66,6 +94,7 @@ const NewProp = (props) => {
           name="text"
           placeholder="abc"
           className={styles.textValue}
+          defaultValue={prevPropArr.length ? prevPropArr[2] : ""}
           required
         />
       ) : null}
@@ -76,6 +105,7 @@ const NewProp = (props) => {
           id="flag"
           placeholder="Flag"
           className={styles.flagValue}
+          defaultValue={prevPropArr.length ? prevPropArr[2] : true}
           required
         >
           <option value="true">True</option>

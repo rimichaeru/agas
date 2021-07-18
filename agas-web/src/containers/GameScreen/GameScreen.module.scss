@@ -12,6 +12,13 @@
     width: 300px;
     height: auto;
 
+    .gameSelect {
+      height: 36px;
+      font-size: 26px;
+      text-align: center;
+      color: $colour-purple;
+    }
+
     .title {
       text-align: center;
       color: $colour-purple;

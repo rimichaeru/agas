@@ -4,21 +4,25 @@ import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
 import AddProp from "../../components/AddProp/AddProp";
 import NewProp from "../../components/NewProp/NewProp";
+import { useHistory } from "react-router-dom";
 
 // props are: all current games (for easy switching, if title becomes game dropdown)
 // propertyIds
 const GameScreen = (props) => {
+
+  // const { games } = props;
+
   const games = [
     {
       description: "eee",
       id: "402880917ab5e6f5017ab63183ce0000",
-      properties: { a: "1", b: "2" },
+      properties: { a: "num-1", b: "num-2" },
       title: "bonk",
     },
     {
       description: "fff",
       id: "402880917ab8d578017ab9323c950000",
-      properties: { a: "a", b: "b" },
+      properties: { a: "text-kjingienrg gerg", b: "flag-false" },
       title: "awesome",
     },
   ];
@@ -33,6 +37,7 @@ const GameScreen = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const [propertyIds, setPropertyIds] = useState([]);
   const [actualRender, setActualRender] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     if (!selectedId) {
@@ -44,12 +49,14 @@ const GameScreen = (props) => {
     games.forEach((game) => {
       if (game.id == selectedId) {
         setSelectedGame(game);
-
+        
+        history.push(game.title + "?id=" + selectedId);
         // properties not a random number like in createGame
         // now the prop name is the id; must be unique
         setPropertyIds(Object.keys(game.properties));
       }
     });
+
   }, [selectedId]);
 
   const deleteProperty = (propertyId) => {
@@ -78,17 +85,18 @@ const GameScreen = (props) => {
   useEffect(() => {
     // render from selectedId > Game > propIds
     setActualRender(
-      propertyIds.map((propertyId) => {
+      propertyIds.map((propertyId, index) => {
         return (
           <NewProp
-            key={propertyId}
+            key={propertyId + index + selectedGame.id}
             propertyId={propertyId}
             deleteProperty={deleteProperty}
+            prevProperties={selectedGame.properties}
           />
         );
       })
     );
-  }, [propertyIds]);
+  }, [propertyIds, selectedGame]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -164,6 +172,14 @@ const GameScreen = (props) => {
     setPropertyIds(existingProps);
   };
 
+  if (!selectedGame) {
+    return (
+      <div className={styles.container}>
+        <p>Loading your game...</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <form
@@ -172,12 +188,31 @@ const GameScreen = (props) => {
         onInvalid={() => {}}
       >
         <label htmlFor="title">Title</label>
+        {/* <select name="games" id="games" className={styles.gameSelect} onChange={(e) => history.push(e.target[e.target.selectedIndex].innerText + "?id=" + e.target[e.target.selectedIndex].value)}> */}
+        <select
+          name="games"
+          id="games"
+          className={styles.gameSelect}
+          onChange={(e) =>
+            setSelectedId(e.target[e.target.selectedIndex].value)
+          }
+        >
+          {games.length ? (
+            games.map((game) => {
+              return <option value={game.id}>{game.title}</option>;
+            })
+          ) : (
+            <option value="create" onClick={() => history.push("/game/create")}>
+              Create Game
+            </option>
+          )}
+        </select>
         <input
           type="text"
           className={styles.title}
           id="title"
           name="title"
-          defaultValue={"props title"}
+          defaultValue={selectedGame.title}
           required
         />
         <label htmlFor="description">Description</label>
@@ -186,10 +221,10 @@ const GameScreen = (props) => {
           id="description"
           name="description"
           rows="3"
-          defaultValue={"props description"}
+          defaultValue={selectedGame.description}
         />
         <div className="propGrid">{actualRender}</div>
-        {/* <AddProp onClick={createProperty} /> */}
+        <AddProp onClick={createProperty} />
         <input type="submit" className="submitButton" value="Update Game" />
       </form>
     </div>
