@@ -16,6 +16,7 @@ const config = {
     createUser: "http://localhost:8080/api/user/create",
 
     createGame: "http://localhost:8080/api/game/create",
+    updateGame: "http://localhost:8080/api/game/update",
     getGameByID: "http://localhost:8080/api/game/id?id=",
     getGamesByOwner: "http://localhost:8080/api/game/owner?owner=",
     cloneGame: "http://localhost:8080/api/game/clone?code=",

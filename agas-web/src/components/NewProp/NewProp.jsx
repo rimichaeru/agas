@@ -30,8 +30,10 @@ const NewProp = (props) => {
   }
 
   useEffect(() => {
-    setType(prevPropArr[1])
-  }, [])
+    if (prevPropArr.length) {
+      setType(prevPropArr[1]);
+    }
+  }, []);
 
   useEffect(() => {
     if (type == "num") {

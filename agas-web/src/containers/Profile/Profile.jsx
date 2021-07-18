@@ -4,7 +4,7 @@ import { useOktaAuth } from "@okta/okta-react";
 import config from "../../oktaConfig";
 import { useHistory } from "react-router-dom";
 
-const Profile = () => {
+const Profile = (props) => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const [renderPlayers, setRenderPlayers] = useState([]);
@@ -52,6 +52,7 @@ const Profile = () => {
       })
       .then((data) => {
         setAllGameData(data);
+        props.setGames(data);
         console.log(data);
 
         setRenderGames(

@@ -9,23 +9,7 @@ import { useHistory } from "react-router-dom";
 // props are: all current games (for easy switching, if title becomes game dropdown)
 // propertyIds
 const GameScreen = (props) => {
-
-  // const { games } = props;
-
-  const games = [
-    {
-      description: "eee",
-      id: "402880917ab5e6f5017ab63183ce0000",
-      properties: { a: "num-1", b: "num-2" },
-      title: "bonk",
-    },
-    {
-      description: "fff",
-      id: "402880917ab8d578017ab9323c950000",
-      properties: { a: "text-kjingienrg gerg", b: "flag-false" },
-      title: "awesome",
-    },
-  ];
+  const { games } = props;
 
   const initGameId = window.location.search;
   const initialGame = initGameId.split("?id=")[1];
@@ -49,14 +33,13 @@ const GameScreen = (props) => {
     games.forEach((game) => {
       if (game.id == selectedId) {
         setSelectedGame(game);
-        
+
         history.push(game.title + "?id=" + selectedId);
         // properties not a random number like in createGame
         // now the prop name is the id; must be unique
         setPropertyIds(Object.keys(game.properties));
       }
     });
-
   }, [selectedId]);
 
   const deleteProperty = (propertyId) => {
@@ -101,6 +84,8 @@ const GameScreen = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(e.target);
+
     const getPropsForDB = () => {
       // form could have many fields, target 0 and 1 are title and description
       // must include all fields without knowing the limit
@@ -108,29 +93,31 @@ const GameScreen = (props) => {
 
       let propertyDictionary = {};
 
-      for (let i = 2; i < e.target.length; i++) {
+      for (let i = 3; i < e.target.length; i++) {
         if (e.target[i].className == "submitButton") {
           console.log("found submit");
           break;
         }
 
-        if ((i + 1) % 3 == 0) {
+        if (i % 3 == 0) {
           propertyDictionary[e.target[i].value] =
             e.target[i + 1].value + "-" + e.target[i + 2].value;
         }
       }
+
+      console.log(propertyDictionary);
       return propertyDictionary;
     };
 
-    fetch(config.resourceServer.createGame, {
-      method: "post",
+    fetch(config.resourceServer.updateGame + "?gameId=" + selectedId, {
+      method: "put",
       headers: {
         Authorization: `Bearer ${oktaAuth.getAccessToken()}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: e.target[0].value,
-        description: e.target[1].value,
+        title: e.target[1].value,
+        description: e.target[2].value,
         properties: getPropsForDB(),
         owner: {
           id: userInfo.email,
@@ -188,7 +175,6 @@ const GameScreen = (props) => {
         onInvalid={() => {}}
       >
         <label htmlFor="title">Title</label>
-        {/* <select name="games" id="games" className={styles.gameSelect} onChange={(e) => history.push(e.target[e.target.selectedIndex].innerText + "?id=" + e.target[e.target.selectedIndex].value)}> */}
         <select
           name="games"
           id="games"
@@ -196,6 +182,7 @@ const GameScreen = (props) => {
           onChange={(e) =>
             setSelectedId(e.target[e.target.selectedIndex].value)
           }
+          value={selectedGame.id}
         >
           {games.length ? (
             games.map((game) => {
@@ -208,6 +195,7 @@ const GameScreen = (props) => {
           )}
         </select>
         <input
+          key={selectedGame.id}
           type="text"
           className={styles.title}
           id="title"
@@ -217,6 +205,7 @@ const GameScreen = (props) => {
         />
         <label htmlFor="description">Description</label>
         <textarea
+          key={selectedGame.id}
           type="text"
           id="description"
           name="description"
@@ -225,7 +214,7 @@ const GameScreen = (props) => {
         />
         <div className="propGrid">{actualRender}</div>
         <AddProp onClick={createProperty} />
-        <input type="submit" className="submitButton" value="Update Game" />
+        <input type="submit" className="submitButton" value="Save Game" />
       </form>
     </div>
   );

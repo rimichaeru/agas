@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import AddProp from "../../components/AddProp/AddProp";
 import NewProp from "../../components/NewProp/NewProp";
 
-const CreatePlayer = () => {
+const CreatePlayer = (props) => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const [gameList, setGameList] = useState([]);
@@ -108,6 +108,8 @@ const CreatePlayer = () => {
       .then((data) => {
         console.log(data);
       });
+
+    alert("Player has been created!");
   };
 
   const getGames = (userEmail) => {
@@ -121,12 +123,13 @@ const CreatePlayer = () => {
         return response.json();
       })
       .then((data) => {
+        console.log("games", data);
+        props.setGames(data);
         setGameList(
           data.map((game) => {
             return [game.id, game.title];
           })
         );
-        console.log(data);
       });
   };
 

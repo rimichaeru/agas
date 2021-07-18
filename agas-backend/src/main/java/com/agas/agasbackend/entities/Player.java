@@ -13,6 +13,7 @@ import java.util.Map;
 @Table(name = "players")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 @TypeDef(name = "json", typeClass = JsonType.class)
+@JsonIgnoreProperties (value = { "hibernateLazyInitializer", "handler"})
 public class Player {
 
     @Id

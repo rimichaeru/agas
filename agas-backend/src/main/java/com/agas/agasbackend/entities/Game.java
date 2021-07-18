@@ -16,6 +16,7 @@ import java.util.Map;
 @Table(name = "games")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @TypeDef(name = "json", typeClass = JsonType.class)
+@JsonIgnoreProperties (value = { "hibernateLazyInitializer", "handler"})
 public class Game {
 
     @Id
@@ -48,7 +49,6 @@ public class Game {
         this.title = title;
         this.description = description;
     }
-
 
     // Next 3 for get, set, and add properties
     // returns Game rather than void

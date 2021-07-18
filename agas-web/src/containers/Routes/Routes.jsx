@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Routes.module.scss";
 import Home from "../Home";
 import { Switch, Route } from "react-router-dom";
@@ -15,6 +15,8 @@ import Profile from "../Profile";
 // Use SecureRoute from okta-react for AUTH-ONLY areas
 
 const Routes = () => {
+  const [games, setGames] = useState([]);
+
   return (
     <Switch>
       <Route exact path="/">
@@ -27,10 +29,10 @@ const Routes = () => {
         <CreateGame />
       </Route>
       <Route path="/game/:gameid">
-        <GameScreen />
+        <GameScreen games={games} />
       </Route>
       <Route exact path="/player/create">
-        <CreatePlayer />
+        <CreatePlayer setGames={setGames} />
       </Route>
       <Route path="/player/:playerid">
         <PlayerScreen />
@@ -40,7 +42,9 @@ const Routes = () => {
       </SecureRoute>
       <Route path="/login/callback" component={LoginCallback} />
       <SecureRoute path="/user-profile" component={UserProfile} />
-      <SecureRoute path="/profile" component={Profile} />
+      <SecureRoute path="/profile">
+        <Profile setGames={setGames} />
+      </SecureRoute>
     </Switch>
   );
 };
