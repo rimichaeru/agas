@@ -16,6 +16,7 @@ import Profile from "../Profile";
 
 const Routes = () => {
   const [games, setGames] = useState([]);
+  const [players, setPlayers] = useState([]);
 
   return (
     <Switch>
@@ -25,25 +26,25 @@ const Routes = () => {
       <Route path="/utils">
         <Utils />
       </Route>
-      <Route exact path="/game/create">
+      <SecureRoute exact path="/game/create">
         <CreateGame />
-      </Route>
-      <Route path="/game/:gameid">
+      </SecureRoute>
+      <SecureRoute path="/game/:gameid">
         <GameScreen games={games} />
-      </Route>
-      <Route exact path="/player/create">
+      </SecureRoute>
+      <SecureRoute exact path="/player/create">
         <CreatePlayer setGames={setGames} />
-      </Route>
-      <Route path="/player/:playerid">
-        <PlayerScreen />
-      </Route>
+      </SecureRoute>
+      <SecureRoute path="/player/:playerid">
+        <PlayerScreen players={players} />
+      </SecureRoute>
       <SecureRoute path="/test">
         <Test />
       </SecureRoute>
       <Route path="/login/callback" component={LoginCallback} />
       <SecureRoute path="/user-profile" component={UserProfile} />
       <SecureRoute path="/profile">
-        <Profile setGames={setGames} />
+        <Profile setGames={setGames} setPlayers={setPlayers} />
       </SecureRoute>
     </Switch>
   );

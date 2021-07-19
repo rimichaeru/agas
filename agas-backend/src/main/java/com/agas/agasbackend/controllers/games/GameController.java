@@ -67,6 +67,7 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(newGame);
     }
 
+    // update an existing game
     @PutMapping("/api/game/update")
     @PreAuthorize("hasAuthority('SCOPE_profile')")
     public ResponseEntity updateGame(@RequestParam String gameId, @RequestBody Game game) {

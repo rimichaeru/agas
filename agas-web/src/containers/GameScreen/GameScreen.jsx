@@ -10,6 +10,12 @@ import { useHistory } from "react-router-dom";
 // propertyIds
 const GameScreen = (props) => {
   const { games } = props;
+  const history = useHistory();
+
+  // redirect to profile, if no information
+  if (!games) {
+    history.push("/profile");
+  }
 
   const initGameId = window.location.search;
   const initialGame = initGameId.split("?id=")[1];
@@ -21,7 +27,6 @@ const GameScreen = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const [propertyIds, setPropertyIds] = useState([]);
   const [actualRender, setActualRender] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     if (!selectedId) {
@@ -84,8 +89,6 @@ const GameScreen = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(e.target);
-
     const getPropsForDB = () => {
       // form could have many fields, target 0 and 1 are title and description
       // must include all fields without knowing the limit
@@ -95,7 +98,6 @@ const GameScreen = (props) => {
 
       for (let i = 3; i < e.target.length; i++) {
         if (e.target[i].className == "submitButton") {
-          console.log("found submit");
           break;
         }
 
@@ -105,7 +107,6 @@ const GameScreen = (props) => {
         }
       }
 
-      console.log(propertyDictionary);
       return propertyDictionary;
     };
 
@@ -128,7 +129,7 @@ const GameScreen = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        return data;
       });
 
     alert("Game has been updated!");

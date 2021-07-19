@@ -38,7 +38,20 @@ public class PlayerController {
         return ResponseEntity.status(HttpStatus.OK).body(player);
     }
 
+    // update an existing player
+    @PutMapping("/api/player/update")
+    @PreAuthorize("hasAuthority('SCOPE_profile')")
+    public ResponseEntity updatePlayer(@RequestParam Long playerId, @RequestBody Player player) {
+        Player originalPlayer = playerRepo.getById(playerId);
 
+        originalPlayer.setName(player.getName());
+        originalPlayer.setProperties(player.getProperties());
+
+        playerRepo.save(originalPlayer);
+
+        return ResponseEntity.status(HttpStatus.OK).body(originalPlayer);
+
+    }
 
 
 }

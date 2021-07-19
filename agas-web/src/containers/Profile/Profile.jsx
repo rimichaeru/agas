@@ -24,6 +24,7 @@ const Profile = (props) => {
   };
 
   const getProfilePlayers = (profileData) => {
+    props.setPlayers(profileData.players);
     setRenderPlayers(
       profileData.players.map((player) => {
         return (
@@ -53,7 +54,6 @@ const Profile = (props) => {
       .then((data) => {
         setAllGameData(data);
         props.setGames(data);
-        console.log(data);
 
         setRenderGames(
           data.map((game) => {
@@ -65,7 +65,11 @@ const Profile = (props) => {
               >
                 <h4>{game.title}</h4>
                 <p>{game.description}</p>
-                <p style={{ fontStyle: "italic" }}>ID: {game.id}</p>
+
+                <div className={styles.code}>
+                  <p style={{ fontStyle: "italic" }}>Code:</p>
+                  <p style={{ fontStyle: "italic" }}>{game.id}</p>
+                </div>
               </div>
             );
           })

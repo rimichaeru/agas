@@ -22,6 +22,7 @@ const config = {
     cloneGame: "http://localhost:8080/api/game/clone?code=",
 
     createPlayer: "http://localhost:8080/api/player/create",
+    updatePlayer: "http://localhost:8080/api/player/update",
     updatePlayersGames: "http://localhost:8080/api/player/",
 
     getAllProfile: "http://localhost:8080/api/user/profile?token=",
