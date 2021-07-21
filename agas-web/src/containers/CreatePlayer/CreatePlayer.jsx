@@ -198,7 +198,7 @@ const CreatePlayer = (props) => {
       </form>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label for="games">Select Game:</label>
-        <select name="games" id="games">
+        <select name="games" id="games" className={`${styles.gameSelect} selectUniversal`} >
           {gameList.length ? (
             gameList.map((game) => {
               return <option value={game[1]}>{game[1]}</option>;

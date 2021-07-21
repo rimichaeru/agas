@@ -5,6 +5,7 @@ import config from "../../oktaConfig";
 import AddProp from "../../components/AddProp/AddProp";
 import NewProp from "../../components/NewProp/NewProp";
 import { useHistory } from "react-router-dom";
+import DiceUtil from "../../components/DiceUtil/DiceUtil";
 
 // props are: all current players (for easy switching, if name becomes player dropdown)
 // propertyIds
@@ -174,16 +175,16 @@ const PlayerScreen = (props) => {
 
   return (
     <div className={styles.container}>
+      <DiceUtil />
       <form
         onSubmit={handleSubmit}
         className={styles.form}
         onInvalid={() => {}}
       >
-        <label htmlFor="name">Name</label>
         <select
           name="players"
           id="players"
-          className={styles.playerSelect}
+          className={`${styles.playerSelect} selectUniversal`}
           onChange={(e) =>
             setSelectedId(e.target[e.target.selectedIndex].value)
           }

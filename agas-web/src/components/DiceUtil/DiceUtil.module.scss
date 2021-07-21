@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  gap: 6px;
+
+  .diceValAmount {
+    display: flex;
+    justify-content: center;
+
+    select {
+      height: 36px;
+    }
+
+    input {
+      width: 80px;
+      font-size: 20px;
+      text-align: center;
+      z-index: 0;
+    }
+
+    button {
+      height: 36px;
+      border-radius: 6px;
+    }
+  }
+}
+
+

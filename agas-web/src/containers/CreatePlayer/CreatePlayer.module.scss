@@ -25,6 +25,13 @@
     }
   }
 
+  .gameSelect {
+    height: 36px;
+    font-size: 26px;
+    text-align: center;
+    color: $colour-purple;
+  }
+
   .form {
     display: flex;
     flex-direction: column;

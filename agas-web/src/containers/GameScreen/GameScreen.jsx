@@ -179,7 +179,7 @@ const GameScreen = (props) => {
         <select
           name="games"
           id="games"
-          className={styles.gameSelect}
+          className={`${styles.gameSelect} selectUniversal`}
           onChange={(e) =>
             setSelectedId(e.target[e.target.selectedIndex].value)
           }

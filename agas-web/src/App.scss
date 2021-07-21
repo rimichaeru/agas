@@ -38,6 +38,23 @@ button {
   }
 }
 
+.selectUniversal {
+  border: 2px solid $colour-grey;
+  border-radius: 6px;
+  background-color: $colour-purple-passive;
+}
+
+.buttonStyle {
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: $colour-purple-passive;
+  box-shadow: 1px 1px 2px $colour-grey;
+
+  &:hover {
+    background-color: $colour-purple-light;
+  }
+}
+
 input {
   height: 36px;
   font-size: 26px;
@@ -67,4 +84,25 @@ textarea {
   align-items: center;
   justify-content: center;
   margin-top: 10px;
+}
+
+.modalContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-width: 90vw;
+  
+}
+
+.modalSubtitle {
+  font-size: 26px;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.modalClose {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 14px;
 }
