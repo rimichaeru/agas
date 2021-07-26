@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./DiceUtil.module.scss";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { FaRegWindowClose } from "react-icons/fa";
@@ -20,10 +20,8 @@ Modal.setAppElement("#root");
 const DiceUtil = () => {
   const [diceValue, setDiceValue] = useState("6");
   const [diceAmount, setDiceAmount] = useState("1");
-  const [diceHistory, setDiceHistory] = useState([]);
+  const [diceHistory, setDiceHistory] = useState([]); // arr of str
   const [modalIsOpen, setIsOpen] = useState(false);
-
-  let subtitle;
 
   const openModal = () => {
     setIsOpen(true);
@@ -34,6 +32,41 @@ const DiceUtil = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const rollDice = (value, amount) => {
+    const diceRolls = [];
+
+    for (let i = 0; i < amount; i++) {
+      diceRolls.push(Math.floor(Math.random() * value + 1));
+    }
+
+    const diceKey = {};
+    for (let i = 0; i < diceRolls.length; i++) {
+      // add key if it doesn't exist
+      if (!Object.keys(diceKey).includes(String(diceRolls[i]))) {
+        diceKey[diceRolls[i]] = 0;
+      }
+
+      // add to roll occurrence
+      diceKey[diceRolls[i]] += 1;
+    }
+
+    let feedbackString = `${amount} D${value} = `;
+    for (const roll in diceKey) {
+      feedbackString += `${roll}s: ${diceKey[roll]} | `;
+    }
+    feedbackString = feedbackString.slice(0, feedbackString.length - 3);
+
+    setDiceHistory((diceHistory) => [...diceHistory, feedbackString]);
+
+    amount == 1
+      ? alert(`You've rolled ${amount} D${value} = ${diceRolls[0]}`)
+      : alert(`You've rolled ${feedbackString}`);
+  };
+
+  useEffect(() => {
+    console.log(diceHistory);
+  }, [diceHistory]);
 
   return (
     <div className={styles.container}>
@@ -61,7 +94,7 @@ const DiceUtil = () => {
           onChange={(e) => setDiceAmount(e.target.value)}
           defaultValue={diceAmount}
         />
-        <button onClick={openModal}>Results</button>
+        <button onClick={openModal}>History</button>
 
         <Modal
           isOpen={modalIsOpen}
@@ -70,7 +103,9 @@ const DiceUtil = () => {
           style={customStyles}
           contentLabel="Results History"
         >
-          <h4 className="modalSubtitle">Results</h4>
+          <h4 className="modalSubtitle" style={{ marginBottom: 6 }}>
+            Results History
+          </h4>
 
           <FaRegWindowClose
             onClick={closeModal}
@@ -79,10 +114,27 @@ const DiceUtil = () => {
             className="modalClose"
           />
 
-          <div className="modalContainer"></div>
+          <div className={`${styles.modal} modalContainer`}>
+            {diceHistory
+              .slice(0)
+              .reverse()
+              .map((result, index) => {
+                return (
+                  <p>
+                    <span className={styles.span}>{diceHistory.length - index}: </span>
+                    {result}
+                  </p>
+                );
+              })}
+          </div>
         </Modal>
       </div>
-      <GiPerspectiveDiceSixFacesRandom size="30px" color="rgb(197, 122, 0)" />
+      <GiPerspectiveDiceSixFacesRandom
+        size="30px"
+        color="rgb(197, 122, 0)"
+        className={styles.rollButton}
+        onClick={() => rollDice(diceValue, diceAmount)}
+      />
     </div>
   );
 };

@@ -3,7 +3,6 @@ package com.agas.agasbackend.entities;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

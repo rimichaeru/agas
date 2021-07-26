@@ -91,7 +91,8 @@ textarea {
   flex-direction: column;
   min-width: 300px;
   max-width: 90vw;
-  
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .modalSubtitle {

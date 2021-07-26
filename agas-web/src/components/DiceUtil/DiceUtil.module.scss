@@ -1,6 +1,8 @@
+@import "../../App.scss";
+
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 300px;
   gap: 6px;
@@ -11,10 +13,12 @@
 
     select {
       height: 36px;
+      width: 56px;
+      text-align: center;
     }
 
     input {
-      width: 80px;
+      width: 50px;
       font-size: 20px;
       text-align: center;
       z-index: 0;
@@ -25,6 +29,16 @@
       border-radius: 6px;
     }
   }
+
+  .rollButton {
+    cursor: pointer;
+  }
 }
 
-
+.span {
+  float: left;
+  text-align: center;
+  width: 30px;
+  font-weight: 900;
+  color: $colour-purple;
+}

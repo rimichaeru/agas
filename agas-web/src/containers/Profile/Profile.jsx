@@ -63,8 +63,10 @@ const Profile = (props) => {
                 key={game.id}
                 onClick={() => goToGameScreen(game.title, game.id)}
               >
-                <h4>{game.title}</h4>
-                <p>{game.description}</p>
+                <div className={styles.details}>
+                  <h4>{game.title}</h4>
+                  <p>{game.description}</p>
+                </div>
 
                 <div className={styles.code}>
                   <p style={{ fontStyle: "italic" }}>Code:</p>
